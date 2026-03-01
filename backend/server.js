@@ -74,7 +74,7 @@ const otpStore = new Map(); // Key: registerNumber, Value: otp
 
 // Consolidate CORS configuration and fix trailing slash
 app.use(cors({
-    origin: "https://docket-mu.vercel.app/",
+    origin: "https://docket-mu.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
