@@ -49,7 +49,7 @@ const UserNotification = () => {
                     className="mb-10 flex items-center justify-between"
                 >
                     <div>
-                        <h1 className="text-4xl md:text-5xl font-black text-white flex items-center gap-4">
+                        <h1 className="text-2xl md:text-5xl font-black text-white flex items-center gap-4">
                             <HiOutlineBell className="text-blue-500" />
                             Notifications
                         </h1>
@@ -116,7 +116,7 @@ const UserNotification = () => {
                                                             {formatDate(notification.createdAt)}
                                                         </div>
                                                     </div>
-                                                    <h2 className="text-2xl font-black text-white group-hover:text-blue-400 transition-colors">
+                                                    <h2 className="md:text-2xl text-xl font-black text-white group-hover:text-blue-400 transition-colors">
                                                         {notification.subject}
                                                     </h2>
                                                 </div>

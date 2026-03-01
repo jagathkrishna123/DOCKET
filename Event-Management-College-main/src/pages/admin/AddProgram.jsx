@@ -171,7 +171,7 @@ const AddProgram = () => {
           animate={{ opacity: 1, x: 0 }}
           className="mb-10"
         >
-          <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent mb-3">
+          <h1 className="text-3xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent mb-3">
             {existingProgram ? "Refine Program" : "Architect New Program"}
           </h1>
           <p className="text-gray-500 text-lg font-medium">Design the next big experience for the college community.</p>
@@ -324,7 +324,7 @@ const AddProgram = () => {
           {/* Section 4: Highlights Module */}
           <div className="bg-white/[0.03] p-8 md:p-10 rounded-[2.5rem] border border-white/10">
             <h2 className="text-xl font-black text-white mb-8 tracking-tight flex items-center gap-3">
-              <span className="w-8 h-8 bg-cyan-600 rounded-lg flex items-center justify-center text-white text-xs"><FaBolt /></span>
+              <span className="w-8 h-8 bg-cyan-600 rounded-lg flex items-center justify-center text-white md:text-xs text-[10px]"><FaBolt /></span>
               Strategic Highlights
             </h2>
 
@@ -352,7 +352,7 @@ const AddProgram = () => {
               <button
                 type="button"
                 onClick={addFeature}
-                className="bg-cyan-600 hover:bg-cyan-500 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"
+                className="bg-cyan-600 hover:bg-cyan-500 text-white px-4 md:px-8 md:py-4 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2"
               >
                 <FaPlus /> Add Highlight
               </button>

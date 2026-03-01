@@ -11,7 +11,7 @@ import { LuMessageSquareMore } from 'react-icons/lu';
 import { GoTrophy } from "react-icons/go";
 
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
     const menuItems = [
         { to: '/teacher', icon: MdOutlineSpaceDashboard, label: 'Dashboard', end: true },
         { to: '/teacher/teacher-add-program', icon: MdOutlineAddBox, label: 'Add Program' },
@@ -26,66 +26,84 @@ const Sidebar = () => {
     ];
 
     return (
-        <div className='flex flex-col bg-white/[0.02] backdrop-blur-xl border-r border-white/10 h-full overflow-y-auto py-8 text-gray-400 font-out sticky top-0'>
-            <div className="px-1 space-y-2">
-                {menuItems.map((item, index) => (
-                    <NavLink
-                        key={index}
-                        to={item.to}
-                        end={item.end}
-                        className={({ isActive }) =>
-                            `group relative flex items-center gap-4 py-3.5 px-4 rounded-md transition-all duration-300 overflow-hidden ${isActive
-                                ? "bg-gradient-to-r from-indigo-500/10 to-purple-500/10 text-indigo-400"
-                                : "hover:bg-white/5 hover:text-gray-200"
-                            }`
-                        }
-                    >
-                        {({ isActive }) => (
-                            <>
-                                {/* Active Indicator Glow */}
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="activeGlowTeacher"
-                                        className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5"
-                                        initial={false}
-                                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                    />
-                                )}
+        <>
+            {/* Backdrop for mobile */}
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] md:hidden transition-opacity duration-300"
+                    onClick={onClose}
+                />
+            )}
 
-                                {/* Active Border */}
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="activeBorderTeacher"
-                                        className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-indigo-400 to-purple-500 rounded-full"
-                                        initial={false}
-                                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                    />
-                                )}
+            <div className={`
+                fixed md:sticky top-0 left-0 h-full z-[60] md:z-auto
+                w-64 md:w-auto
+                flex flex-col bg-[#03050F]/95 md:bg-white/[0.02] backdrop-blur-xl border-r border-white/10 overflow-y-auto py-8 text-gray-400 font-out
+                transform transition-transform duration-300 ease-in-out
+                ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+            `}>
+                <div className="px-1 space-y-2">
+                    {menuItems.map((item, index) => (
+                        <NavLink
+                            key={index}
+                            to={item.to}
+                            end={item.end}
+                            onClick={() => {
+                                if (window.innerWidth < 768) {
+                                    onClose();
+                                }
+                            }}
+                            className={({ isActive }) =>
+                                `group relative flex items-center gap-4 py-3.5 px-4 rounded-md transition-all duration-300 overflow-hidden ${isActive
+                                    ? "bg-gradient-to-r from-indigo-500/10 to-purple-500/10 text-indigo-400"
+                                    : "hover:bg-white/5 hover:text-gray-200"
+                                }`
+                            }
+                        >
+                            {({ isActive }) => (
+                                <>
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="activeGlowTeacher"
+                                            className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5"
+                                            initial={false}
+                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                        />
+                                    )}
 
-                                <item.icon className={`text-xl relative z-10 transition-transform duration-300 group-hover:scale-110 ${isActive ? "text-indigo-400" : "text-gray-500 group-hover:text-gray-300"}`} />
-                                <span className='hidden md:inline-block font-bold text-sm tracking-wide relative z-10 uppercase opacity-80 group-hover:opacity-100'>
-                                    {item.label}
-                                </span>
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="activeBorderTeacher"
+                                            className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-indigo-400 to-purple-500 rounded-full"
+                                            initial={false}
+                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                        />
+                                    )}
 
-                                {/* Hover Particle Effect */}
-                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent pointer-events-none" />
-                            </>
-                        )}
-                    </NavLink>
-                ))}
-            </div>
+                                    <item.icon className={`text-xl relative z-10 transition-transform duration-300 group-hover:scale-110 ${isActive ? "text-indigo-400" : "text-gray-500 group-hover:text-gray-300"}`} />
+                                    <span className='font-bold text-sm tracking-wide relative z-10 uppercase opacity-80 group-hover:opacity-100'>
+                                        {item.label}
+                                    </span>
 
-            {/* Footer Info */}
-            <div className="mt-auto px-6 py-8 border-t border-white/5 hidden md:block">
-                <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-600 mb-1">Status</p>
-                    <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.5)]"></span>
-                        <span className="text-xs font-bold text-gray-400">Teacher Portal</span>
+                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent pointer-events-none" />
+                                </>
+                            )}
+                        </NavLink>
+                    ))}
+                </div>
+
+                {/* Footer Info */}
+                <div className="mt-auto px-6 py-8 border-t border-white/5">
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-600 mb-1">Status</p>
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.5)]"></span>
+                            <span className="text-xs font-bold text-gray-400">Teacher Portal</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

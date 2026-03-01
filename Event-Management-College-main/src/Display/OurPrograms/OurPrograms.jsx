@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 
-const API_BASE_URL = " http://localhost:5000/api";
+const API_BASE_URL = "http://localhost:5000/api";
 
 // Map to restore icons
 const ICON_MAP = {
@@ -152,14 +152,14 @@ const OurPrograms = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                key={item.id}
-                onClick={() => handleCardClick(item.id)}
+                key={item._id}
+                onClick={() => handleCardClick(item._id)}
                 className="flex flex-col rounded-2xl bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 border border-slate-600 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 cursor-pointer group overflow-hidden"
               >
                 {/* IMAGE */}
                 <div className="w-full overflow-hidden rounded-t-2xl relative">
                   <img
-                    src={item.image || "https://via.placeholder.com/400x300"}
+                    src={`${API_BASE_URL}/uploads/${item.images || "default-event.jpg"}`}
                     alt={item.name}
                     className="w-full h-48 md:h-56 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
@@ -211,7 +211,7 @@ const OurPrograms = () => {
                     whileTap={{ scale: 0.98 }}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleCardClick(item.id);
+                      handleCardClick(item._id);
                     }}
                     className="mt-4 w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/25"
                   >

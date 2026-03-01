@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 
-const API_BASE_URL = " http://localhost:5000/api";
+const API_BASE_URL = "http://localhost:5000/api";
 
 // Map to restore icons from localStorage string labels
 const ICON_MAP = {
@@ -139,7 +139,7 @@ const ProgramDetails = () => {
           </div>
 
           {/* Program Name */}
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-300 to-cyan-300 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-300 to-cyan-300 bg-clip-text text-transparent leading-tight">
             {showDetail.name}
           </h1>
 
@@ -152,7 +152,7 @@ const ProgramDetails = () => {
           <div className="flex justify-center">
             <button
               onClick={handleDownload}
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transform hover:-translate-y-1"
+              className="group relative inline-flex items-center gap-3 md:px-8 md:py-4 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold md:rounded-2xl rounded-sm transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transform hover:-translate-y-1"
             >
               <Download className="w-5 h-5 group-hover:scale-110 transition-transform" />
               Download Brochure

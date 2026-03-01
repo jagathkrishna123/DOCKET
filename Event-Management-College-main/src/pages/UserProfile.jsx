@@ -11,7 +11,7 @@ const UserProfile = () => {
     const [displayUser, setDisplayUser] = useState(null);
     const [editData, setEditData] = useState(null);
     const [showMenu, setShowMenu] = useState(false);
-    const API_BASE_URL = " http://localhost:5000/api";
+    const API_BASE_URL = "http://localhost:5000/api";
 
 
 
@@ -157,7 +157,7 @@ const UserProfile = () => {
     };
 
     if (!displayUser) {
-        return <div className="text-white text-center p-10 mt-20">Loading profile...</div>;
+        return <div className=" min-h-screen bg-[#03050F] text-white text-center p-10 mt-20">Loading profile...</div>;
     }
 
     // const isStudent = displayUser.userType === 'student';

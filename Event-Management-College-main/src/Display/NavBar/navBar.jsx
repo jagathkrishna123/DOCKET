@@ -3,7 +3,7 @@
 import Logo2 from "../../assets/logo2.png";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
-import { HiOutlineMenu, HiX, HiOutlineBell, HiOutlineUser, HiHome, HiDocumentText, HiCalendar, HiInformationCircle, HiLogout } from "react-icons/hi";
+import { HiOutlineMenu, HiX, HiOutlineBell, HiOutlineUser, HiHome, HiDocumentText, HiCalendar, HiInformationCircle, HiLogout, HiOutlineSpeakerphone } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegUserCircle, FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
@@ -37,10 +37,10 @@ export function NavBar() {
           {/* Logo Section */}
           <div onClick={() => navigate("/")} className="flex items-center w-[205px] h-[70px] cursor-pointer">
             <div className="flex items-center h-[66px]">
-              <img src={Logo2} alt="Logo" className="w-[50px]" />
+              <img src={Logo2} alt="Logo" className="md:w-[50px] w-[40px]" />
             </div>
             <div className="flex items-center justify-center">
-              <h2 className="font-sans font-bold text-white text-[27px]">
+              <h2 className="font-sans font-bold text-white md:text-[27px] text-[20px]">
                 DOCKET
               </h2>
             </div>
@@ -127,12 +127,20 @@ export function NavBar() {
               className="relative cursor-pointer group"
             >
               <HiOutlineBell
-                strokeWidth={1}
-                size={28}
-                className="text-white hover:text-purple-300 transition-colors duration-200"
-              />
+  strokeWidth={1}
+  className="
+    text-white 
+    w-6 h-6 
+    sm:w-6 sm:h-6 
+    md:w-7 md:h-7 
+    lg:w-8 lg:h-8
+    hover:text-purple-300 
+    transition-colors 
+    duration-200
+  "
+/>
               {notificationCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-xs rounded-full border-1 border-gray-600">
+                <span className="absolute -top-1 -right-1 flex items-center justify-center w-[13px] md:min-w-[18px] h-[13px] md:h-[18px] px-1 bg-red-500 text-white text-[8px] md:text-xs rounded-full border-1 border-gray-600">
                   {notificationCount > 99 ? "99+" : notificationCount}
                 </span>
               )}
@@ -144,10 +152,18 @@ export function NavBar() {
               className="cursor-pointer group"
             >
               <CircleUserRound
-                strokeWidth={1}
-                size={28}
-                className="text-white hover:text-purple-300 transition-colors duration-200"
-              />
+  strokeWidth={1}
+  className="
+    text-white 
+    w-6 h-6
+    sm:w-6 sm:h-6 
+    md:w-7 md:h-7 
+    lg:w-8 lg:h-8
+    hover:text-purple-300 
+    transition-colors 
+    duration-200
+  "
+/>
             </div>
 
             {/* Desktop Logout */}
@@ -189,12 +205,12 @@ export function NavBar() {
             <div className="flex md:hidden items-center text-white">
               {mobileView ? (
                 <HiX
-                  className="text-3xl cursor-pointer"
+                  className="text-xl cursor-pointer"
                   onClick={() => setMobileView(false)}
                 />
               ) : (
                 <HiOutlineMenu
-                  className="text-3xl cursor-pointer"
+                  className="text-xl cursor-pointer"
                   onClick={() => setMobileView(true)}
                 />
               )}
@@ -280,7 +296,7 @@ export function NavBar() {
                 ) : (
                   <div className="bg-white/5 border border-white/5 rounded-3xl p-6 text-center">
                     <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-500">
-                      <HiOutlineUser className="text-3xl" />
+                      <HiOutlineUser className="text-xl" />
                     </div>
                     <h3 className="text-white font-bold mb-1">
                       Welcome, Guest
@@ -317,6 +333,16 @@ export function NavBar() {
                   </div>
                   <span className="font-bold">Home</span>
                 </Link>
+                <Link
+                  to="/announcements"
+                  onClick={() => setMobileView(false)}
+                  className="flex items-center gap-4 p-4 text-gray-300 hover:text-white hover:bg-white/5 rounded-2xl transition-all group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-emerald-600/20 group-hover:text-emerald-400 transition-colors">
+                    <HiOutlineSpeakerphone className="text-xl" />
+                  </div>
+                  <span className="font-bold">Announcements</span>
+                </Link>
 
                 <Link
                   to="/reports"
@@ -339,6 +365,7 @@ export function NavBar() {
                   </div>
                   <span className="font-bold">About Us</span>
                 </Link>
+                
               </div>
 
               {/* Footer / Logout */}

@@ -76,21 +76,21 @@ const AdminDashboard = () => {
     {
       title: "Total Events",
       value: stats.totalEvents,
-      icon: <FaCalendarAlt className="w-8 h-8 text-blue-400" />,
+      icon: <FaCalendarAlt className="md:w-8 w-6 md:h-8 h-6 text-blue-400" />,
       bgColor: "from-blue-600 to-indigo-700",
       lightBg: "bg-blue-600/10"
     },
     {
       title: "Total Students",
       value: stats.totalStudents,
-      icon: <FaGraduationCap className="w-8 h-8 text-emerald-400" />,
+      icon: <FaGraduationCap className="md:w-8 w-6 md:h-8 h-6 text-emerald-400" />,
       bgColor: "from-emerald-600 to-teal-700",
       lightBg: "bg-emerald-600/10"
     },
     {
       title: "Total Teachers",
       value: stats.totalTeachers,
-      icon: <FaChalkboardTeacher className="w-8 h-8 text-purple-400" />,
+      icon: <FaChalkboardTeacher className="md:w-8 w-6 md:h-8 h-6 text-purple-400" />,
       bgColor: "from-purple-600 to-pink-700",
       lightBg: "bg-purple-600/10"
     },
@@ -110,18 +110,18 @@ const AdminDashboard = () => {
 
         {/* Header */}
         <div className="mb-10">
-          <h1 className="text-3xl md:text-5xl font-black bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent mb-3">System Overview</h1>
-          <p className="text-gray-500 text-lg font-medium">Global analytics and management console for college events.</p>
+          <h1 className="text-2xl md:text-5xl font-black bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent mb-3">System Overview</h1>
+          <p className="text-gray-500 text-sm md:text-lg font-medium">Global analytics and management console for college events.</p>
         </div>
 
         {/* Stats Cards Grid */}
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12'>
           {statsCards.map((card, index) => (
-            <div key={index} className={`${card.lightBg} backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:scale-[1.03] transition-all duration-500 shadow-2xl`}>
+            <div key={index} className={`${card.lightBg} backdrop-blur-xl border border-white/10 rounded-3xl p-5 md:p-8 hover:scale-[1.03] transition-all duration-500 shadow-2xl`}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className='text-4xl font-black text-white mb-2 leading-none'>{card.value}</p>
-                  <p className='text-gray-500 font-black text-xs uppercase tracking-widest'>{card.title}</p>
+                  <p className='md:text-4xl text-2xl font-black text-white mb-2 leading-none'>{card.value}</p>
+                  <p className='text-gray-500 font-black md:text-xs text-[10px] uppercase tracking-widest'>{card.title}</p>
                 </div>
                 <div className={`bg-white/5 p-4 rounded-2xl border border-white/5`}>
                   {card.icon}
@@ -157,7 +157,7 @@ const AdminDashboard = () => {
                 <FaCalendarAlt className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-black text-white tracking-tight">Recent System Events</h2>
+                <h2 className="md:text-2xl text-xl font-black text-white tracking-tight">Recent System Events</h2>
                 <p className="text-gray-500 text-xs font-bold uppercase tracking-widest">Master feed of all event activity</p>
               </div>
             </div>
@@ -191,7 +191,7 @@ const AdminDashboard = () => {
                             />
                           </div>
                           <div>
-                            <p className='text-white font-black text-lg group-hover:text-emerald-400 transition-colors'>{event.eventName}</p>
+                            <p className='text-white font-black md:text-lg text-md group-hover:text-emerald-400 transition-colors'>{event.eventName}</p>
                             <p className='text-gray-500 text-[10px] font-bold uppercase tracking-widest truncate max-w-[150px]'>{event.venue}</p>
                           </div>
                         </div>
