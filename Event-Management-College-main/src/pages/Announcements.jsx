@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GoTrophy } from "react-icons/go";
 import { MdOutlineEmojiEvents, MdCalendarMonth, MdPersonOutline } from 'react-icons/md';
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
 
 const Announcements = () => {
     const [results, setResults] = useState([]);

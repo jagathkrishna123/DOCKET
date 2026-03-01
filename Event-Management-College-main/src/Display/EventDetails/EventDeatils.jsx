@@ -22,7 +22,7 @@ import { BiWorld } from "react-icons/bi";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -366,11 +366,11 @@ const EventDetails = () => {
                     {event.sponsorImages.map((img, i) => (
                       <div key={i} className="bg-white/[0.03] border border-white/5 rounded-2xl p-4 flex items-center justify-center h-20 hover:border-white/10 transition-colors">
                         {/* <img src={img} alt="Partner" className="max-h-12 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500" /> */}
-                        <img 
-  src={`${API_BASE_URL}/uploads/${img}`} 
-  alt="Partner" 
-  className="max-h-12 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500" 
-/>
+                        <img
+                          src={`${API_BASE_URL}/uploads/${img}`}
+                          alt="Partner"
+                          className="max-h-12 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                        />
                       </div>
                     ))}
                   </div>

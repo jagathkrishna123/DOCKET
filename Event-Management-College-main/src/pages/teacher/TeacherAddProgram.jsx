@@ -19,7 +19,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
 
 const ICON_OPTIONS = [
   { label: "Bolt", value: FaBolt },
@@ -113,27 +113,27 @@ const TeacherAddProgram = () => {
 
       //   toast.success("Program refined successfully!");
       // } else {
-        await axios.post(
-          `${API_BASE_URL}/programs`,
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" }
-          }
-        );
+      await axios.post(
+        `${API_BASE_URL}/programs`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" }
+        }
+      );
 
-        toast.success("New program launched successfully!");
+      toast.success("New program launched successfully!");
 
-        // 🔔 Send notification (no file needed here unless required)
-        await axios.post(
-          `${API_BASE_URL}/notifications`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-      
+      // 🔔 Send notification (no file needed here unless required)
+      await axios.post(
+        `${API_BASE_URL}/notifications`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
 
       // navigate(-1);
     } catch (error) {

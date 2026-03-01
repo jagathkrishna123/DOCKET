@@ -14,7 +14,7 @@ const AdminFeedback = () => {
 
   const loadRatings = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/ratings");
+      const response = await fetch("https://render.com/docs/web-services#port-binding/api/ratings");
       const result = await response.json();
       if (result.success) {
         setRatings(result.data);

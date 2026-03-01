@@ -9,7 +9,7 @@
 // // } from "react-icons/fa";
 // // import axios from "axios";
 
-// // const API_BASE_URL = "http://localhost:5000/api";
+// // const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
 
 // // // Map to restore icons
 // // const ICON_MAP = {
@@ -28,7 +28,7 @@
 // //             try {
 // //                 const res = await axios.get(`${API_BASE_URL}/programs`);
 // //                 console.log(res,"upcoming");
-                
+
 // //                 const storedPrograms = res.data;
 // //                 const today = new Date();
 // //                 today.setHours(0, 0, 0, 0);
@@ -203,7 +203,7 @@
 // } from "react-icons/fa";
 // import axios from "axios";
 
-// const API_BASE_URL = "http://localhost:5000/api";
+// const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
 
 // // Map to restore icons
 // const ICON_MAP = {
@@ -222,7 +222,7 @@
 //             try {
 //                 const res = await axios.get(`${API_BASE_URL}/programs`);
 //                 console.log(res, "upcoming");
-                
+
 //                 const storedPrograms = res.data;
 //                 const today = new Date();
 //                 today.setHours(0, 0, 0, 0);
@@ -321,7 +321,7 @@
 //                         >
 //                             {/* Animated gradient overlay */}
 //                             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-blue-500/5 transition-all duration-700 rounded-[2rem] pointer-events-none"></div>
-                            
+
 //                             {/* Glow effect on hover */}
 //                             <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-[2rem] opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
 
@@ -388,7 +388,7 @@
 //                                             {item.department || "General Program"}
 //                                         </p>
 //                                     </div>
-                                    
+
 //                                     {/* Description preview */}
 //                                     {/* {item.description && (
 //                                         <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mt-2">
@@ -461,7 +461,7 @@
 //                     0% { transform: translateX(0); }
 //                     100% { transform: translateX(calc(-1 * var(--count) * (var(--card-width) + var(--gap)))); }
 //                 }
-                
+
 //                 /* Line clamp utilities */
 //                 .line-clamp-2 {
 //                     display: -webkit-box;
@@ -489,7 +489,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
 
 // Map to restore icons
 const ICON_MAP = {
@@ -508,7 +508,7 @@ export function UpcomingEvents() {
             try {
                 const res = await axios.get(`${API_BASE_URL}/programs`);
                 console.log(res, "upcoming");
-                
+
                 const storedPrograms = res.data;
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
@@ -555,7 +555,7 @@ export function UpcomingEvents() {
         <div className="relative w-full py-16 overflow-hidden font-out">
             {/* Header Section */}
             <div className="max-w-7xl mx-auto px-6 mb-12">
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
@@ -607,7 +607,7 @@ export function UpcomingEvents() {
                         >
                             {/* Animated gradient overlay */}
                             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-blue-500/5 transition-all duration-700 rounded-xl sm:rounded-2xl lg:rounded-[2rem] pointer-events-none"></div>
-                            
+
                             {/* Glow effect on hover */}
                             <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl sm:rounded-2xl lg:rounded-[2rem] opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
 
@@ -630,7 +630,7 @@ export function UpcomingEvents() {
 
                                 {/* Top badges */}
                                 <div className="absolute top-3 left-3 sm:top-4 lg:top-5 sm:left-4 lg:left-5 flex gap-1.5 sm:gap-2 z-10 flex-wrap">
-                                    <motion.span 
+                                    <motion.span
                                         whileHover={{ scale: 1.05 }}
                                         className="px-2.5 py-1 sm:px-3 lg:px-4 sm:py-1.5 lg:py-2 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full text-[8px] sm:text-[9px] lg:text-[10px] font-black text-white uppercase tracking-[0.1em] sm:tracking-[0.15em] backdrop-blur-xl shadow-lg border border-white/30 flex items-center gap-1"
                                     >
@@ -638,7 +638,7 @@ export function UpcomingEvents() {
                                         Active
                                     </motion.span>
                                     {item.category && (
-                                        <motion.span 
+                                        <motion.span
                                             whileHover={{ scale: 1.05 }}
                                             className="px-2.5 py-1 sm:px-3 lg:px-4 sm:py-1.5 lg:py-2 bg-white/15 rounded-full text-[8px] sm:text-[9px] lg:text-[10px] font-black text-white uppercase tracking-[0.1em] sm:tracking-[0.15em] backdrop-blur-xl border border-white/20 shadow-lg"
                                         >
@@ -674,7 +674,7 @@ export function UpcomingEvents() {
                                             {item.department || "General Event"}
                                         </p>
                                     </div>
-                                    
+
                                     {/* Description preview */}
                                     {item.description && (
                                         <p className="text-gray-500 text-xs sm:text-sm leading-relaxed line-clamp-2 mt-1.5 sm:mt-2 hidden sm:block">

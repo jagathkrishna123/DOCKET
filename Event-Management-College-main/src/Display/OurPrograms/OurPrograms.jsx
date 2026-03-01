@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
 
 // Map to restore icons
 const ICON_MAP = {

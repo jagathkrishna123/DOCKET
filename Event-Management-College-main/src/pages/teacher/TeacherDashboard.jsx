@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
 
 const TeacherDashboard = () => {
   const { user } = useAppContext();

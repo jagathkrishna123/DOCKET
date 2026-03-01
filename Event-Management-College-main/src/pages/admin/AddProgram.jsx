@@ -16,7 +16,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_BASE_URL = "http://localhost:5000/api"; // Update with your backend URL
+const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api"; // Update with your backend URL
 
 const ICON_OPTIONS = [
   { label: "Bolt", value: FaBolt },
