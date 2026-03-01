@@ -10,21 +10,14 @@ const AdminFeedback = () => {
 
   useEffect(() => {
     loadRatings();
-    // Refresh ratings when storage changes
-    window.addEventListener("storage", loadRatings);
-    return () => window.removeEventListener("storage", loadRatings);
   }, []);
 
-  const loadRatings = () => {
+  const loadRatings = async () => {
     try {
-      const storedRatings = localStorage.getItem(STORAGE_KEY);
-      if (storedRatings) {
-        const parsedRatings = JSON.parse(storedRatings);
-        // Sort by creation date (newest first)
-        const sortedRatings = parsedRatings.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
-        setRatings(sortedRatings);
+      const response = await fetch("http://localhost:5000/api/ratings");
+      const result = await response.json();
+      if (result.success) {
+        setRatings(result.data);
       }
     } catch (error) {
       console.error("Error loading ratings:", error);
@@ -34,16 +27,16 @@ const AdminFeedback = () => {
   };
 
   const getUniqueEvents = () => {
-    const events = [...new Set(ratings.map(rating => rating.eventName))];
+    const events = [...new Set(ratings.map(rating => rating.eventId?.eventName).filter(Boolean))];
     return events;
   };
 
   const filteredRatings = filterEvent === "all"
     ? ratings
-    : ratings.filter(rating => rating.eventName === filterEvent);
+    : ratings.filter(rating => rating.eventId?.eventName === filterEvent);
 
   const getAverageRating = (eventName) => {
-    const eventRatings = ratings.filter(r => r.eventName === eventName);
+    const eventRatings = ratings.filter(r => r.eventId?.eventName === eventName);
     if (eventRatings.length === 0) return 0;
     const sum = eventRatings.reduce((acc, r) => acc + r.rating, 0);
     return (sum / eventRatings.length).toFixed(1);
@@ -236,7 +229,7 @@ const AdminFeedback = () => {
             <div className="space-y-4">
               {filteredRatings.map((rating, index) => (
                 <motion.div
-                  key={rating.id}
+                  key={rating._id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -246,10 +239,10 @@ const AdminFeedback = () => {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <h3 className="text-xl font-semibold text-white mb-1">
-                        {rating.eventName}
+                        {rating.eventId?.eventName}
                       </h3>
                       <p className="text-gray-400 text-sm">
-                        User ID: {rating.userId}
+                        User: {rating.userId?.name || "Anonymous"} ({rating.userId?.email || "N/A"})
                       </p>
                       <p className="text-gray-500 text-xs mt-1">
                         {new Date(rating.createdAt).toLocaleDateString("en-US", {
@@ -277,7 +270,7 @@ const AdminFeedback = () => {
                   {/* Admin Actions */}
                   <div className="mt-4 flex items-center justify-between">
                     <div className="flex items-center gap-2 text-gray-500 text-sm">
-                      <span>Rating ID: {rating.id.slice(0, 8)}...</span>
+                      <span>Rating ID: {rating._id.slice(0, 8)}...</span>
                     </div>
                     <div className="flex gap-2">
                       <button className="text-blue-400 hover:text-blue-300 text-sm font-medium transition">

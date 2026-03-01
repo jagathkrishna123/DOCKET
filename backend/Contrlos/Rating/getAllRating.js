@@ -15,7 +15,7 @@ export const getAllRatings = async (req, res) => {
 
     const ratings = await Rating.find(filter)
       .populate("userId", "name email") // only fetch name & email
-      .populate("eventId", "title")     // only fetch event title
+      .populate("eventId", "eventName")     // only fetch event name
       .sort({ createdAt: -1 });
 
     res.status(200).json({
