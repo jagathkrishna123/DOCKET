@@ -3,7 +3,7 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineBell, HiOutlineCalendar, HiOutlineUser, HiOutlineTag } from "react-icons/hi";
 
-const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const UserNotification = () => {
     const [notifications, setNotifications] = useState([]);

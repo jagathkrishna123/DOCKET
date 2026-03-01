@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const TeacherDashboard = () => {
   const { user } = useAppContext();

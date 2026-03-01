@@ -9,7 +9,7 @@
 // // } from "react-icons/fa";
 // // import axios from "axios";
 
-// // const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+// // const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 // // // Map to restore icons
 // // const ICON_MAP = {
@@ -203,7 +203,7 @@
 // } from "react-icons/fa";
 // import axios from "axios";
 
-// const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+// const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 // // Map to restore icons
 // const ICON_MAP = {
@@ -489,7 +489,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 
-const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 // Map to restore icons
 const ICON_MAP = {

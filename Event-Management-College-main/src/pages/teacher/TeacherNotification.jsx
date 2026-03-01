@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useAppContext } from "../../context/AppContext";
 import axios from "axios";
 
-const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const TeacherNotification = () => {
     const { user } = useAppContext();

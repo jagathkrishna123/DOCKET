@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const Registrations = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);

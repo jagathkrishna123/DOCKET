@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const TeacherAnnouncement = () => {
     const { user } = useAppContext();

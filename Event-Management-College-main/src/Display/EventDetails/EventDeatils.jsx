@@ -22,7 +22,7 @@ import { BiWorld } from "react-icons/bi";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const EventDetails = () => {
   const { id } = useParams();

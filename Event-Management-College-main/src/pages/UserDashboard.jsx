@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { FaMapMarkerAlt, FaSync } from "react-icons/fa";
 
-const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const UserDashboard = () => {
   const { user } = useAppContext();

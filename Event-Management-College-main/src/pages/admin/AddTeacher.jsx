@@ -13,7 +13,7 @@ import {
 import { LuScanFace, LuMail } from "react-icons/lu";
 import { toast } from "react-toastify";
 
-const API_URL = "https://render.com/docs/web-services#port-binding/api/teachers";
+const API_URL = "https://docket-2aus.onrender.com/api/teachers";
 
 const isValidEmail = (email) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

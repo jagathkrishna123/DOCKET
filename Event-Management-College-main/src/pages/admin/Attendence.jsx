@@ -5,7 +5,7 @@ import { MdKeyboardDoubleArrowRight, MdSearch } from 'react-icons/md';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const API_BASE_URL = "https://render.com/docs/web-services#port-binding/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const Attendence = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);

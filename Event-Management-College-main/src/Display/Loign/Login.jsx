@@ -5,7 +5,7 @@ import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
 
 // Configure base URL for axios
-const API_URL = "https://render.com/docs/web-services#port-binding";
+const API_URL = "https://docket-2aus.onrender.com";
 
 const Login = () => {
   const navigate = useNavigate();
