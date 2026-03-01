@@ -34,23 +34,20 @@ const AdminDashboard = () => {
       ]);
       console.log(teachersRes.data, "teac");
 
-      const allEvents = eventsRes.data;
-      const students = usersRes.data;
-      const teachers = teachersRes.data;
-      const users = usersRes2.data;
+      const allEvents = eventsRes.data || [];
+      const students = usersRes.data || [];
+      const teachersList = teachersRes.data || [];
+      const usersArray = usersRes2.data?.data || [];
 
-      setTeachers(users.filter(u => u.role === "teacher"));
-
-
-
+      // Use the dedicated teachers endpoint for the lookup list as it's more complete
+      setTeachers(teachersList);
 
       const now = new Date()
       const upcoming = allEvents.filter(event => {
-        const eventDate = new Date(event.date); // parse string to Date
-        return !isNaN(eventDate) && eventDate >= now; // check it's valid and compare
+        const eventDate = new Date(event.date);
+        return !isNaN(eventDate) && eventDate >= now;
       }).length
-      console.log(upcoming,"upcoming");
-      
+
       const completed = allEvents.length - upcoming
 
       setStats({
@@ -58,7 +55,7 @@ const AdminDashboard = () => {
         upcomingEvents: upcoming,
         completedEvents: completed,
         totalStudents: students.length,
-        totalTeachers: teachers.length
+        totalTeachers: teachersList.length
       })
 
       const sorted = [...allEvents].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5)
@@ -186,7 +183,12 @@ const AdminDashboard = () => {
                       <td className='px-8 py-6'>
                         <div className="flex items-center gap-4">
                           <div className="w-10 h-10 rounded-xl bg-gray-800 overflow-hidden border border-white/5">
-                            <img src={event.image || event.poster} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                            {/* <img src={event.image || event.poster} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" /> */}
+                            <img
+                              src={`${API_BASE_URL}/uploads/${event.image || event.poster}`}
+                              alt={event.eventName}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
                           </div>
                           <div>
                             <p className='text-white font-black text-lg group-hover:text-emerald-400 transition-colors'>{event.eventName}</p>
@@ -199,7 +201,13 @@ const AdminDashboard = () => {
                       </td>
                       <td className='px-8 py-6 text-gray-400 max-sm:hidden text-center font-medium text-sm'>{event.date}</td>
                       <td className='px-8 py-6 text-right'>
-                        <p className="text-white font-bold text-xs truncate max-w-[120px] ml-auto">  {teachers.find(t => t._id === event.incharge)?.name || "None"}</p>
+                        <p className="text-white font-bold text-xs truncate max-w-[120px] ml-auto"> {
+                          (() => {
+                            const inchargeId = event.incharge?._id || event.incharge;
+                            // Search in teachers state which now includes the full list
+                            return teachers.find(t => String(t._id) === String(inchargeId))?.name || inchargeId || "None";
+                          })()
+                        }</p>
                       </td>
                     </tr>
                   ))}

@@ -8,7 +8,7 @@ import { MdSearch, MdDownload } from "react-icons/md";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-const API_BASE_URL = " http://localhost:5000/api";
+const API_BASE_URL = "http://localhost:5000/api";
 
 const Attendence = () => {
   const { user } = useAppContext();
@@ -33,6 +33,9 @@ const Attendence = () => {
         axios.get(`${API_BASE_URL}/users`)
       ]);
 
+      const attendanceArray = attRes.data.data || [];
+      const studentsArray = studentsRes.data.data || [];
+
       const teacherEvents = eventsRes.data.filter(event =>
         event.incharge && event.incharge.includes(user.name)
       );
@@ -40,10 +43,12 @@ const Attendence = () => {
 
       const requestsByEvent = {};
       teacherEvents.forEach(event => {
-        const eventRequests = attRes.data.filter(att =>
-          Number(att.eventId) === Number(event.id)
-        ).map(att => {
-          const student = studentsRes.data.find(u => String(u.id) === String(att.userId));
+        const eventRequests = attendanceArray.filter(att => {
+          const attEventId = att.eventId?._id || att.eventId;
+          return String(attEventId) === String(event._id);
+        }).map(att => {
+          const attUserId = att.userId?._id || att.userId;
+          const student = studentsArray.find(u => String(u._id) === String(attUserId));
           return {
             ...att,
             studentName: student ? student.name : "Unknown",
@@ -52,7 +57,7 @@ const Attendence = () => {
             studentSem: student ? student.semester : "N/A"
           };
         });
-        requestsByEvent[event.id] = eventRequests;
+        requestsByEvent[event._id] = eventRequests;
       });
 
       setAttendanceRequests(requestsByEvent);
@@ -178,12 +183,11 @@ const Attendence = () => {
         ) : (
           <div className="space-y-8">
             {filteredEvents.map(event => {
-              const requests = attendanceRequests[event.id] || [];
+              const requests = attendanceRequests[event._id] || [];
               const pendingRequests = requests.filter(r => r.status === 'pending');
-              const historyRequests = requests.filter(r => r.status !== 'pending');
 
               return (
-                <div key={event.id} className="bg-gray-900/50 border border-gray-700 rounded-2xl overflow-hidden backdrop-blur-sm">
+                <div key={event._id} className="bg-gray-900/50 border border-gray-700 rounded-2xl overflow-hidden backdrop-blur-sm">
                   <div className="p-6 border-b border-gray-700 bg-gray-800/30">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div>
@@ -221,7 +225,7 @@ const Attendence = () => {
                           </thead>
                           <tbody className="text-gray-300">
                             {requests.sort((a, b) => (a.status === 'pending' ? -1 : 1)).map(request => (
-                              <tr key={request.id} className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+                              <tr key={request._id} className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
                                 <td className="py-3 px-4 font-medium text-white">{request.studentName}</td>
                                 <td className="py-3 px-4">{request.studentRegNo}</td>
                                 <td className="py-3 px-4">{request.studentDept} - {request.studentSem}</td>
@@ -238,13 +242,13 @@ const Attendence = () => {
                                   {request.status === 'pending' && (
                                     <div className="flex justify-end gap-2">
                                       <button
-                                        onClick={() => handleStatusUpdate(request.id, 'approved')}
+                                        onClick={() => handleStatusUpdate(request._id, 'approved')}
                                         className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm transition"
                                       >
                                         Approve
                                       </button>
                                       <button
-                                        onClick={() => handleStatusUpdate(request.id, 'rejected')}
+                                        onClick={() => handleStatusUpdate(request._id, 'rejected')}
                                         className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition"
                                       >
                                         Reject

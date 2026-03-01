@@ -30,13 +30,13 @@ const Attendence = () => {
         axios.get(`${API_BASE_URL}/users`)
       ]);
 
-      console.log(eventsRes,"event" , attRes,"attres" , regsRes, "regs", studentsRes, "students");
-      
+      console.log(eventsRes, "event", attRes, "attres", regsRes, "regs", studentsRes, "students");
 
-      setEvents(eventsRes.data);
-      setAttendanceRecords(attRes.data);
-      setRegistrations(regsRes.data?.data);
-      setUsers(studentsRes.data);
+
+      setEvents(eventsRes.data || []);
+      setAttendanceRecords(attRes.data?.data || []);
+      setRegistrations(regsRes.data?.data || []);
+      setUsers(studentsRes.data?.data || []);
     } catch (error) {
       console.error("Load error:", error);
       toast.error("Failed to load attendance data.");
@@ -46,8 +46,14 @@ const Attendence = () => {
   };
 
   const getAttendanceStats = (eventId) => {
-    const eventRegistrations = registrations.filter(reg => String(reg.eventId) === String(eventId));
-    const eventAttendance = attendanceRecords.filter(att => String(att.eventId) === String(eventId));
+    const eventRegistrations = registrations.filter(reg => {
+      const regEventId = reg.eventId?._id || reg.eventId;
+      return String(regEventId) === String(eventId);
+    });
+    const eventAttendance = attendanceRecords.filter(att => {
+      const attEventId = att.eventId?._id || att.eventId;
+      return String(attEventId) === String(eventId);
+    });
 
     const approved = eventAttendance.filter(a => a.status === 'approved').length;
     const pending = eventAttendance.filter(a => a.status === 'pending').length;
@@ -62,20 +68,26 @@ const Attendence = () => {
   };
 
   const getStudentRoster = (eventId) => {
-    const eventRegistrations = registrations.filter(reg => String(reg.eventId) === String(eventId));
+    const eventRegistrations = registrations.filter(reg => {
+      const regEventId = reg.eventId?._id || reg.eventId;
+      return String(regEventId) === String(eventId);
+    });
 
     return eventRegistrations.map(reg => {
-      const student = users.find(u => String(u.id) === String(reg.userId));
-      const attRecord = attendanceRecords.find(att =>
-        String(att.eventId) === String(eventId) && String(att.userId) === String(reg.userId)
-      );
+      const regUserId = reg.userId?._id || reg.userId;
+      const student = users.find(u => String(u._id) === String(regUserId));
+      const attRecord = attendanceRecords.find(att => {
+        const attEventId = att.eventId?._id || att.eventId;
+        const attUserId = att.userId?._id || att.userId;
+        return String(attEventId) === String(eventId) && String(attUserId) === String(regUserId);
+      });
 
       return {
         ...student,
         attendanceStatus: attRecord ? attRecord.status : 'not-marked',
         attendanceDate: attRecord ? attRecord.date : null
       };
-    }).filter(s => s.id);
+    }).filter(s => s?._id);
   };
 
   if (loading) {
@@ -86,7 +98,7 @@ const Attendence = () => {
     );
   }
 
-  const roster = selectedEvent ? getStudentRoster(selectedEvent.id) : [];
+  const roster = selectedEvent ? getStudentRoster(selectedEvent._id) : [];
 
   return (
     <div className="flex-1 h-screen overflow-y-auto bg-[#03050F] p-4 md:p-10 font-out text-gray-300">
@@ -147,7 +159,7 @@ const Attendence = () => {
                     </div>
                   </div>
                   <div className="flex gap-4">
-                    {Object.entries(getAttendanceStats(selectedEvent.id)).map(([key, val]) => (
+                    {Object.entries(getAttendanceStats(selectedEvent._id)).map(([key, val]) => (
                       <div key={key} className="bg-white/5 px-4 py-2 rounded-xl border border-white/5 text-center">
                         <span className="block text-xl font-black text-white">{val}</span>
                         <span className="text-[8px] uppercase tracking-widest text-gray-500 font-bold">{key}</span>
@@ -169,7 +181,7 @@ const Attendence = () => {
                   </thead>
                   <tbody className="divide-y divide-white/5 text-sm">
                     {roster.map((student) => (
-                      <tr key={student.id} className="hover:bg-white/[0.02] transition-colors">
+                      <tr key={student._id} className="hover:bg-white/[0.02] transition-colors">
                         <td className="px-8 py-6 font-mono font-bold text-blue-400">{student.registerNumber}</td>
                         <td className="px-8 py-6">
                           <div className="flex flex-col">
@@ -212,12 +224,12 @@ const Attendence = () => {
             {events.filter(event =>
               event.eventName.toLowerCase().includes(searchTerm.toLowerCase())
             ).map((event) => {
-              const stats = getAttendanceStats(event.id);
+              const stats = getAttendanceStats(event._id);
               const attendanceRate = stats.total > 0 ? Math.round((stats.attended / stats.total) * 100) : 0;
 
               return (
                 <motion.div
-                  key={event.id}
+                  key={event._id}
                   whileHover={{ y: -8 }}
                   onClick={() => setSelectedEvent(event)}
                   className="bg-gray-800/40 border border-blue-500/30 rounded-[2.5rem] overflow-hidden shadow-2xl hover:border-blue-500/60 cursor-pointer transition-all duration-500 group"

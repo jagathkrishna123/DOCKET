@@ -9,7 +9,7 @@ export const updateAttendanceStatus = async (req, res) => {
     const { status } = req.body;
 
     // Validate status
-    const allowedStatuses = ["pending", "present", "absent"];
+    const allowedStatuses = ["pending", "approved", "rejected", "present", "absent"];
     if (!status || !allowedStatuses.includes(status)) {
       return res.status(400).json({
         success: false,

@@ -102,7 +102,11 @@ const UserDashboard = () => {
 
 
         const attendanceRecord = attendanceRecords.find(
-          att => String(att.userId) === String(user._id) && String(att.eventId) === String(reg.eventId._id)
+          att => {
+            const attUserId = att.userId?._id || att.userId;
+            const attEventId = att.eventId?._id || att.eventId;
+            return String(attUserId) === String(user._id) && String(attEventId) === String(reg.eventId?._id);
+          }
         );
 
         return {

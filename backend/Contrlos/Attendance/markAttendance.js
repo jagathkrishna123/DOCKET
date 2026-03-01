@@ -8,7 +8,7 @@ export const markAttendance = async (req, res) => {
     const { eventId, userId, status } = req.body;
 
     // Optional: Validate status manually
-    const allowedStatuses = ["pending", "present", "absent"];
+    const allowedStatuses = ["pending", "approved", "rejected", "present", "absent"];
     if (status && !allowedStatuses.includes(status)) {
       return res.status(400).json({
         success: false,

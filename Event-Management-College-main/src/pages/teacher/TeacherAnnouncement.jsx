@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const API_BASE_URL = " http://localhost:5000/api";
+const API_BASE_URL = "http://localhost:5000/api";
 
 const TeacherAnnouncement = () => {
     const { user } = useAppContext();
@@ -45,14 +45,14 @@ const TeacherAnnouncement = () => {
 
             // Only show events where this teacher is incharge
             const myEvents = eventsRes.data.filter(event =>
-                event.incharge && event.incharge.includes(user.name)
+                event.incharge && (event.incharge.includes(user.name) || event.incharge.includes(user._id))
             );
 
             setEvents(myEvents);
-            setRegistrations(regsRes.data);
-            setAttendance(attRes.data);
-            setStudents(studentsRes.data);
-            setPublishedResults(resultsRes.data);
+            setRegistrations(regsRes.data?.data || []);
+            setAttendance(attRes.data?.data || []);
+            setStudents(studentsRes.data?.data || []);
+            setPublishedResults(resultsRes.data?.data || []);
         } catch (error) {
             console.error("Load data error:", error);
             toast.error("Failed to load necessary data");
@@ -64,7 +64,7 @@ const TeacherAnnouncement = () => {
     // Update students list when event is selected
     useEffect(() => {
         if (selectedEvent) {
-            const list = getEventStudents(selectedEvent.id);
+            const list = getEventStudents(selectedEvent._id);
             setEventStudents(list);
             // Reset winners if we change event
             setResults(prev => prev.map(r => ({ ...r, winners: [] })));
@@ -74,8 +74,8 @@ const TeacherAnnouncement = () => {
     }, [selectedEvent]);
 
     const getEventStudents = (eventId) => {
-        const eventRegs = registrations.filter(reg => String(reg.eventId) === String(eventId));
-        const eventAtt = attendance.filter(att => Number(att.eventId) === Number(eventId) && att.status === 'approved');
+        const eventRegs = registrations.filter(reg => String(reg.eventId?._id || reg.eventId) === String(eventId));
+        const eventAtt = attendance.filter(att => String(att.eventId?._id || att.eventId) === String(eventId) && att.status === 'approved');
 
         const uniqueStudents = new Map();
 
@@ -85,17 +85,17 @@ const TeacherAnnouncement = () => {
                     const student = students.find(u => u.registerNumber && u.registerNumber.toUpperCase() === member.regNo.toUpperCase());
 
                     // Only include if student has approved attendance
-                    const isPresent = student && eventAtt.some(att => String(att.userId) === String(student.id));
+                    const isPresent = student && eventAtt.some(att => String(att.userId?._id || att.userId) === String(student._id));
 
                     if (isPresent && !uniqueStudents.has(student.registerNumber)) {
                         uniqueStudents.set(student.registerNumber, { ...student, regStatus: reg.status });
                     }
                 });
             } else {
-                const student = students.find(u => String(u.id) === String(reg.userId));
+                const student = students.find(u => String(u._id) === String(reg.userId?._id || reg.userId));
 
                 // Only include if student has approved attendance
-                const isPresent = student && eventAtt.some(att => String(att.userId) === String(student.id));
+                const isPresent = student && eventAtt.some(att => String(att.userId?._id || att.userId) === String(student._id));
 
                 if (isPresent && student && !uniqueStudents.has(student.registerNumber)) {
                     uniqueStudents.set(student.registerNumber, { ...student, regStatus: reg.status });
@@ -146,7 +146,7 @@ const TeacherAnnouncement = () => {
 
         try {
             await axios.post(`${API_BASE_URL}/event-results`, {
-                eventId: selectedEvent.id,
+                eventId: selectedEvent._id,
                 eventName: selectedEvent.eventName,
                 results: validResults.map(r => ({
                     prizeLevel: r.prizeLevel,
@@ -157,7 +157,7 @@ const TeacherAnnouncement = () => {
 
             // Refresh published results
             const resultsRes = await axios.get(`${API_BASE_URL}/event-results`);
-            setPublishedResults(resultsRes.data);
+            setPublishedResults(resultsRes.data?.data || []);
 
             // Reset
             setResults([
@@ -178,7 +178,7 @@ const TeacherAnnouncement = () => {
             toast.success("Result deleted successfully");
             // Refresh results
             const resultsRes = await axios.get(`${API_BASE_URL}/event-results`);
-            setPublishedResults(resultsRes.data);
+            setPublishedResults(resultsRes.data?.data || []);
         } catch (error) {
             console.error("Delete error:", error);
             toast.error("Failed to delete result");
@@ -231,9 +231,9 @@ const TeacherAnnouncement = () => {
                                 ) : (
                                     events.map((event) => (
                                         <button
-                                            key={event.id}
+                                            key={event._id}
                                             onClick={() => setSelectedEvent(event)}
-                                            className={`w-full text-left p-6 rounded-3xl transition-all duration-300 border ${selectedEvent?.id === event.id
+                                            className={`w-full text-left p-6 rounded-3xl transition-all duration-300 border ${selectedEvent?._id === event._id
                                                 ? "bg-indigo-600/20 border-indigo-500/50 shadow-lg shadow-indigo-500/10"
                                                 : "bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10"
                                                 }`}
@@ -242,7 +242,7 @@ const TeacherAnnouncement = () => {
                                                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400/80">
                                                     {event.programName}
                                                 </span>
-                                                {selectedEvent?.id === event.id && <MdCheckCircle className="text-indigo-400 text-xl" />}
+                                                {selectedEvent?._id === event._id && <MdCheckCircle className="text-indigo-400 text-xl" />}
                                             </div>
                                             <h4 className="text-lg font-black text-white group-hover:text-indigo-200 transition-colors">
                                                 {event.eventName}
@@ -359,7 +359,7 @@ const TeacherAnnouncement = () => {
                                 </section>
 
                                 {/* Published Results Section */}
-                                {publishedResults.filter(pr => String(pr.eventId) === String(selectedEvent.id)).length > 0 && (
+                                {publishedResults.filter(pr => String(pr.eventId?._id || pr.eventId) === String(selectedEvent._id)).length > 0 && (
                                     <section className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-8 shadow-2xl">
                                         <h3 className="text-xl font-black text-white mb-8 flex items-center gap-3">
                                             <span className="w-1.5 h-6 bg-red-500 rounded-full"></span>
@@ -367,9 +367,9 @@ const TeacherAnnouncement = () => {
                                         </h3>
                                         <div className="space-y-4">
                                             {publishedResults
-                                                .filter(pr => String(pr.eventId) === String(selectedEvent.id))
+                                                .filter(pr => String(pr.eventId?._id || pr.eventId) === String(selectedEvent._id))
                                                 .map((result) => (
-                                                    <div key={result.id} className="bg-white/[0.02] border border-white/5 rounded-2xl p-5 flex items-center justify-between group">
+                                                    <div key={result._id} className="bg-white/[0.02] border border-white/5 rounded-2xl p-5 flex items-center justify-between group">
                                                         <div>
                                                             <div className="text-indigo-400 text-xs font-black uppercase tracking-widest mb-1">
                                                                 {result.prizeLevel}
@@ -386,7 +386,7 @@ const TeacherAnnouncement = () => {
                                                             </div>
                                                         </div>
                                                         <button
-                                                            onClick={() => handleDeleteResult(result.id)}
+                                                            onClick={() => handleDeleteResult(result._id)}
                                                             className="p-3 bg-red-500/10 text-red-500 hover:bg-red-500/20 rounded-xl transition-all opacity-0 group-hover:opacity-100"
                                                             title="Delete Announcement"
                                                         >

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GoTrophy } from "react-icons/go";
 import { MdOutlineEmojiEvents, MdCalendarMonth, MdPersonOutline } from 'react-icons/md';
 
-const API_BASE_URL = " http://localhost:5000/api";
+const API_BASE_URL = "http://localhost:5000/api";
 
 const Announcements = () => {
     const [results, setResults] = useState([]);
@@ -18,7 +18,7 @@ const Announcements = () => {
         setLoading(true);
         try {
             const response = await axios.get(`${API_BASE_URL}/event-results`);
-            setResults(response.data);
+            setResults(response.data?.data || []);
         } catch (error) {
             console.error("Fetch results error:", error);
         } finally {
@@ -27,15 +27,16 @@ const Announcements = () => {
     };
 
     const groupedResults = results.reduce((acc, item) => {
-        if (!acc[item.eventId]) {
-            acc[item.eventId] = {
-                id: item.eventId,
+        const eventId = item.eventId?._id || item.eventId;
+        if (!acc[eventId]) {
+            acc[eventId] = {
+                id: eventId,
                 eventName: item.eventName,
                 announcedAt: item.announcedAt,
                 prizes: []
             };
         }
-        acc[item.eventId].prizes.push({
+        acc[eventId].prizes.push({
             prizeLevel: item.prizeLevel,
             winners: item.winners
         });

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-const API_BASE_URL = " http://localhost:5000/api";
+const API_BASE_URL = "http://localhost:5000/api";
 
 const TeacherDashboard = () => {
   const { user } = useAppContext();
@@ -17,33 +17,33 @@ const TeacherDashboard = () => {
   const [recentEvents, setRecentEvents] = useState([])
   const [loading, setLoading] = useState(false)
 
-  console.log(dashboardData,"dash board data");
-  
+  console.log(dashboardData, "dash board data");
+
 
   const fetchDashboard = async () => {
-    setLoading(false)
+    setLoading(true)
     // console.log(user,"user");
-    
+
     // if (!user) return;
 
     try {
       const res = await axios.get(`${API_BASE_URL}/events`);
       const allEvents = res.data;
-        // console.log(res,"events");
-        
+      // console.log(res,"events");
+
       const teacherEvents = allEvents.filter(event =>
-        event.incharge && event.incharge.includes(user._id)
+        event.incharge && (event.incharge.includes(user.name) || event.incharge.includes(user._id))
       )
       // console.log(teacherEvents,"teacher");
-      
+
 
       const now = new Date()
-  const upcoming = teacherEvents.filter(event => {
-  const eventDate = new Date(event.date); // parse string to Date
-  return !isNaN(eventDate) && eventDate >= now; // check it's valid and compare
-}).length;
+      const upcoming = teacherEvents.filter(event => {
+        const eventDate = new Date(event.date); // parse string to Date
+        return !isNaN(eventDate) && eventDate >= now; // check it's valid and compare
+      }).length;
       // console.log(upcoming,"up");
-      
+
       const completed = teacherEvents.length - upcoming
 
       setDashboardData({
@@ -154,12 +154,12 @@ const TeacherDashboard = () => {
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {recentEvents.map((event, index) => (
-                    <tr key={event.id} className="hover:bg-white/[0.02] transition-colors group">
+                    <tr key={event._id} className="hover:bg-white/[0.02] transition-colors group">
                       <td className='px-8 py-6 text-gray-600 font-mono font-bold'>{index + 1}</td>
                       <td className='px-8 py-6'>
                         <div className="flex items-center gap-4">
                           <div className="w-10 h-10 rounded-xl bg-gray-800 overflow-hidden border border-white/5">
-                            <img src={event.image || event.poster} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                            <img src={`${API_BASE_URL}/uploads/${event.image || event.poster}`} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                           </div>
                           <div>
                             <p className='text-white font-black text-lg group-hover:text-blue-400 transition-colors'>{event.eventName}</p>

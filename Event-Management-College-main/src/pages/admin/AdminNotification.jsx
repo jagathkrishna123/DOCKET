@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { HiOutlineBell } from "react-icons/hi";
 
-const API_BASE_URL = " http://localhost:5000/api";
+const API_BASE_URL = "http://localhost:5000/api";
 
 const AdminNotification = () => {
     const [activeTab, setActiveTab] = useState("compose"); // compose, history
@@ -26,7 +26,7 @@ const AdminNotification = () => {
         const fetchTeachers = async () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/registered-teachers`);
-                setTeachers(response.data);
+                setTeachers(response.data?.data || []);
             } catch (error) {
                 console.error("Error fetching teachers:", error);
                 toast.error("Failed to load teachers");
@@ -37,7 +37,7 @@ const AdminNotification = () => {
         const fetchNotifications = async () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/notifications`);
-                setNotifications(response.data);
+                setNotifications(response.data?.data || []);
             } catch (error) {
                 console.error("Error fetching notifications:", error);
                 toast.error("Failed to load notification history");
@@ -81,7 +81,7 @@ const AdminNotification = () => {
 
             // Refresh notifications after sending
             const historyResponse = await axios.get(`${API_BASE_URL}/notifications`);
-            setNotifications(historyResponse.data);
+            setNotifications(historyResponse.data?.data || []);
 
             toast.success("Notification sent successfully!");
             setFormData({
@@ -176,7 +176,7 @@ const AdminNotification = () => {
                                             >
                                                 <option value="" className="bg-gray-900">Select a teacher...</option>
                                                 {teachers.map(teacher => (
-                                                    <option key={teacher.id} value={teacher.registerNumber} className="bg-gray-900">
+                                                    <option key={teacher._id} value={teacher.registerNumber} className="bg-gray-900">
                                                         {teacher.name} ({teacher.registerNumber})
                                                     </option>
                                                 ))}
@@ -249,7 +249,7 @@ const AdminNotification = () => {
                             </div>
                         ) : (
                             notifications.map((note) => (
-                                <NotificationItem key={note.id} note={note} />
+                                <NotificationItem key={note._id} note={note} />
                             ))
                         )}
                     </div>
@@ -313,7 +313,7 @@ const NotificationItem = ({ note }) => {
                                 <div className="space-y-4">
                                     <h4 className="text-xs font-black uppercase tracking-widest text-gray-500">Replies</h4>
                                     {note.replies.map(reply => (
-                                        <div key={reply.id} className="flex gap-4 p-4 bg-indigo-500/5 border border-indigo-500/10 rounded-xl">
+                                        <div key={reply._id || reply.id} className="flex gap-4 p-4 bg-indigo-500/5 border border-indigo-500/10 rounded-xl">
                                             <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 text-xs font-bold">
                                                 {reply.sender.name.charAt(0)}
                                             </div>
