@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { Display } from "./Display/display";
 import ProgramDetails from "./Display/ProgramDetails/ProgramDetails";
 import FooterContents from "./Display/Footer/FooterContents";
@@ -40,31 +40,41 @@ import TeacherAnnouncement from "./pages/teacher/TeacherAnnouncement";
 
 function App() {
   const { pathname } = useLocation()
-  const hideLayout = pathname.includes("admin") || pathname.includes("teacher") || pathname.includes("login");
-  const { showUserLogin, user } = useAppContext()
+  const { user } = useAppContext()
+  const hideLayout = pathname.includes("admin") || pathname.includes("teacher") || pathname.includes("login") || !user;
+
   return (
-    <div className="bg-gradient-to-br from-neutral-900 via-gray-900 to-black
-">
+    <div className="bg-gradient-to-br from-neutral-900 via-gray-900 to-black">
       <ScrollToTop />
-      {showUserLogin && <LoginForm />}
+      <ToastContainer position="bottom-right" autoClose={800} />
       <div className="w-full">
         {!hideLayout && <NavBar />}
       </div>
-      <ToastContainer position="bottom-right" autoClose={800} />
       <Routes>
-        <Route path="/" element={<Display />} />
-        <Route path="/programdetails/:id" element={<ProgramDetails />} />
-        <Route path="/eventdetails/:id" element={<EventDeatils />} />
-        <Route path="/event/:id/register" element={<EventRegistration />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/announcements" element={<Announcements />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/user-notification" element={<UserNotification />} />
-        <Route path="/profile" element={<UserProfile />} />
+        {/* Public/Login Route */}
+        <Route 
+          path="/login" 
+          element={!user ? <Login /> : (
+            user.role === "admin" ? <Navigate to="/admin" /> : 
+            user.role === "teacher" ? <Navigate to="/teacher" /> : 
+            <Navigate to="/" />
+          )} 
+        />
 
-        <Route path='/teacher' element={true ? <Layout /> : <Login />}>
+        {/* Protected Routes */}
+        <Route path="/" element={user ? <Display /> : <Navigate to="/login" />} />
+        <Route path="/programdetails/:id" element={user ? <ProgramDetails /> : <Navigate to="/login" />} />
+        <Route path="/eventdetails/:id" element={user ? <EventDeatils /> : <Navigate to="/login" />} />
+        <Route path="/event/:id/register" element={user ? <EventRegistration /> : <Navigate to="/login" />} />
+        <Route path="/reports" element={user ? <Reports /> : <Navigate to="/login" />} />
+        <Route path="/announcements" element={user ? <Announcements /> : <Navigate to="/login" />} />
+        <Route path="/about" element={user ? <About /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={user ? <UserDashboard /> : <Navigate to="/login" />} />
+        <Route path="/user-notification" element={user ? <UserNotification /> : <Navigate to="/login" />} />
+        <Route path="/profile" element={user ? <UserProfile /> : <Navigate to="/login" />} />
+
+        {/* Teacher Section */}
+        <Route path='/teacher' element={user && user.role === 'teacher' ? <Layout /> : <Navigate to="/login" />}>
           <Route index element={<TeacherDashboard />} />
           <Route path='teacher-add-program' element={<TeacherAddProgram />} />
           <Route path='addevent' element={<AddEvent />} />
@@ -77,7 +87,8 @@ function App() {
           <Route path='teacher-notification' element={<TeacherNotification />} />
         </Route>
         
-        <Route path='/admin' element={true ? <AdminLayout /> : <Login />}>
+        {/* Admin Section */}
+        <Route path='/admin' element={user && user.role === 'admin' ? <AdminLayout /> : <Navigate to="/login" />}>
           <Route index element={<AdminDashboard />} />
           <Route path='admin-add-program' element={<AddProgram />} />
           <Route path='addevent' element={<AdminAddEvent />} />
@@ -89,9 +100,11 @@ function App() {
           <Route path='addteacher' element={<AddTeacher />} />
           <Route path='admin-notification' element={<AdminNotification />} />
         </Route>
+
+        {/* Catch all */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       {!hideLayout && <FooterContents />}
-
     </div>
   );
 }

@@ -17,6 +17,16 @@ const ManageProgram = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
+const formatDate = (dateString) => {
+  if (!dateString) return "-";
+
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -100,7 +110,7 @@ const ManageProgram = () => {
     <div className="min-h-screen text-slate-400 p-6 font-out">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold">Manage Content</h1>
+          <h1 className="md:text-2xl text-md font-semibold">Manage Content</h1>
           <div className="flex bg-slate-800 rounded-lg p-1">
             <button
               onClick={() => { setActiveTab("programs"); setCurrentPage(1); }}
@@ -120,7 +130,7 @@ const ManageProgram = () => {
         {/* TABLE */}
         <div className="overflow-x-auto">
           <table className="w-full border border-white/10 rounded-xl">
-            <thead className="bg-white/5">
+            <thead className="bg-white/5 text-[12px] md:text-sm">
               <tr>
                 <th className="p-3 text-left">Name</th>
                 <th className="p-3">Date</th>
@@ -135,14 +145,15 @@ const ManageProgram = () => {
                 currentItems.map((item) => (
                   <tr key={item._id || item.id} className="border-t border-white/10 hover:bg-white/5">
                     <td className="p-3">
-                      <div className="font-medium text-white">{item.name || item.eventName}</div>
+                      <div className="font-medium text-white text-[12px]">{item.name || item.eventName}</div>
                       <div className="text-xs">{item.category}</div>
                     </td>
-                    <td className="p-3 text-center">{item.programDate || item.date}</td>
-
+<td className="p-3 text-center text-[12px] md:text-sm">
+  {formatDate(item.programDate || item.date)}
+</td>
                     {activeTab === 'events' && (() => {
                       const program = programs.find(p => p._id === item.programId);
-                      return <td className="p-3 text-center text-sm">{program?.name || item.programName || "-"}</td>;
+                      return <td className="p-3 text-center text-[12px] md:text-sm">{program?.name || item.programName || "-"}</td>;
                     })()}
 
                     {activeTab === 'events' && (

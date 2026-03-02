@@ -134,7 +134,12 @@ const ProgramDetails = () => {
           <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-full backdrop-blur-sm mb-8">
             <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
             <span className="text-blue-300 font-medium text-sm">
-              {showDetail.programDate} • {showDetail.programTime}
+              {/* {showDetail.programDate} • {showDetail.programTime} */}
+              {new Date(showDetail.programDate).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })} • {showDetail.programTime}
             </span>
           </div>
 

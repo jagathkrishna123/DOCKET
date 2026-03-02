@@ -371,7 +371,7 @@ const AddStudent = () => {
                         <span className="text-gray-400 font-medium">{student.email}</span>
                       </td>
                       <td className="px-8 py-6">
-                        <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex justify-end gap-3">
                           <button
                             onClick={() => handleEdit(index)}
                             className="p-3 bg-blue-500/10 text-blue-500 rounded-xl hover:bg-blue-500 hover:text-white transition-all shadow-lg active:scale-90"

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
+import emailjs from "@emailjs/browser";
 
 // Configure base URL for axios
 const API_URL = "https://docket-2aus.onrender.com";
@@ -15,7 +16,10 @@ const Login = () => {
   const [step, setStep] = useState("id-input");
   const [userType, setUserType] = useState(null); // 'student' | 'teacher'
   const [userEmail, setUserEmail] = useState("");
+  const [mail,setMail] = useState("")
   const [userId, setUserId] = useState("");
+  console.log(userId,"ma");
+  
 
   // ID Input state
   const [idInput, setIdInput] = useState("");
@@ -25,6 +29,57 @@ const Login = () => {
   const [generatedOtp, setGeneratedOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
 
+  //Fetvh user
+
+// useEffect(() => {
+//   const fetchUser = async () => {
+//     try {
+//       let endpoint = "";
+
+//       // Decide API based on userId prefix
+//       if (userId?.startsWith("SFA")) {
+//         endpoint = "/api/students";
+//       } else if (userId?.startsWith("AED")) {
+//         endpoint = "/api/teachers";
+//       } else {
+//         console.log("Invalid User ID format");
+//         return;
+//       }
+
+//       const res = await axios.get(`${API_URL}${endpoint}`);
+//       console.log(res,"response");
+      
+//       const users = res.data;
+
+//       console.log("API Called:", endpoint);
+//       console.log("Users:", users);
+
+//       if (Array.isArray(users)) {
+//         const matchedUser = users.find(
+//           (user) =>
+//             user.teacherId?.trim().toLowerCase() ===
+//             userId?.trim().toLowerCase()
+//         );
+
+//         console.log("Matched User:", matchedUser);
+
+//         if (matchedUser) {
+//           setMail(matchedUser.email);
+//         } else {
+//           console.log("No matching user found");
+//         }
+//       }
+
+//     } catch (error) {
+//       console.error("Error fetching user:", error);
+//     }
+//   };
+
+//   if (userId) {
+//     fetchUser();
+//   }
+
+// }, [userId]);
   // Signup form state
   const [signupData, setSignupData] = useState({
     name: "",
@@ -46,12 +101,60 @@ const Login = () => {
     registerNumber: "",
     password: "",
   });
+ 
+  
 
-  // Generate OTP (6-digit random number)
-  const generateOTP = () => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-  };
+  // // Generate OTP (6-digit random number)
+  // const generateOTP = () => {
+  //   return Math.floor(100000 + Math.random() * 900000).toString();
 
+  // }
+
+
+  
+
+  
+
+// const [sending, setSending] = useState(false);
+
+// const sendOtp = async () => {
+//   console.log("Sending OTP to:", mail);
+
+//   // ✅ Validate email
+//   if (!mail || !mail.includes("@")) {
+//     alert("Valid email is required");
+//     return;
+//   }
+
+//   // ✅ Validate OTP
+//   if (!generatedOtp) {
+//     alert("OTP not generated");
+//     return;
+//   }
+
+//   try {
+//     setSending(true);
+
+//     const response = await emailjs.send(
+//       "service_rzknbo8",
+//       "template_2iuizlj",
+//       {
+//         to_email: mail,
+//         otp: generatedOtp,
+//       },
+//       "AVhbHu_-no5zEa5zc"
+//     );
+
+//     console.log("SUCCESS!", response);
+//     alert("OTP sent successfully ✅");
+
+//   } catch (error) {
+//     console.error("FAILED...", error?.text || error);
+//     alert("Failed to send OTP ❌");
+//   } finally {
+//     setSending(false);
+//   }
+// };
   // Department code mapping
   const departmentMap = {
     BCM: "B.Com (Bachelor of Commerce)",
@@ -87,19 +190,21 @@ const Login = () => {
     // Admin Redirection - Skip OTP, go to password
     if (id === "ADMIN001") {
       setStep("login");
-      setLoginData(prev => ({ ...prev, registerNumber: id }));
+      setLoginData((prev) => ({ ...prev, registerNumber: id }));
       toast.info("Admin account detected. Please enter password.");
       return;
     }
 
     try {
-      const response = await axios.post(`${API_URL}/verify-id`, { registerNumber: id });
+      const response = await axios.post(`${API_URL}/verify-id`, {
+        registerNumber: id,
+      });
       const { status, email, role, message } = response.data;
 
       if (status === "registered") {
         toast.info(message || "Account found! Please login.");
         setStep("login");
-        setLoginData(prev => ({ ...prev, registerNumber: id }));
+        setLoginData((prev) => ({ ...prev, registerNumber: id }));
         return;
       }
 
@@ -113,14 +218,17 @@ const Login = () => {
           ...prev,
           registerNumber: id,
           email: email,
-          department: detectedDept
+          department: detectedDept,
         }));
 
         // Send OTP
         try {
-          const otpResponse = await axios.post(`${API_URL}/send-otp`, { registerNumber: id });
+          const otpResponse = await axios.post(`${API_URL}/send-otp`, {
+            registerNumber: id,
+          });
           if (otpResponse.data.otp) {
             setGeneratedOtp(otpResponse.data.otp); // For testing display
+            // sendOtp();
             console.log(`OTP for ${id}: ${otpResponse.data.otp}`);
           }
           setOtpSent(true);
@@ -131,7 +239,6 @@ const Login = () => {
           toast.error("Failed to send OTP. Please try again.");
         }
       }
-
     } catch (error) {
       console.error("ID Verification Error:", error);
       if (error.response && error.response.data && error.response.data.error) {
@@ -154,7 +261,7 @@ const Login = () => {
     try {
       await axios.post(`${API_URL}/verify-otp`, {
         registerNumber: userId,
-        otp: otp
+        otp: otp,
       });
       toast.success("OTP verified successfully!");
       setStep("signup");
@@ -169,7 +276,12 @@ const Login = () => {
     e.preventDefault();
 
     // Validation
-    if (!signupData.name || !signupData.password || !signupData.mobile || !signupData.department) {
+    if (
+      !signupData.name ||
+      !signupData.password ||
+      !signupData.mobile ||
+      !signupData.department
+    ) {
       toast.error("Please fill all required fields");
       return;
     }
@@ -215,11 +327,16 @@ const Login = () => {
 
       await axios.post(`${API_URL}/register`, payload);
 
-      toast.success(`${userType === "student" ? "Student" : "Teacher"} registered successfully!`);
+      toast.success(
+        `${userType === "student" ? "Student" : "Teacher"} registered successfully!`,
+      );
 
       // Auto go to login
       setStep("login");
-      setLoginData((prev) => ({ ...prev, registerNumber: signupData.registerNumber }));
+      setLoginData((prev) => ({
+        ...prev,
+        registerNumber: signupData.registerNumber,
+      }));
 
       // Reset signup form
       setSignupData({
@@ -236,7 +353,6 @@ const Login = () => {
         designation: "",
         qualification: "",
       });
-
     } catch (error) {
       console.error("Signup error:", error);
       if (error.response && error.response.data && error.response.data.error) {
@@ -259,7 +375,7 @@ const Login = () => {
     try {
       const response = await axios.post(`${API_URL}/login`, {
         registerNumber: loginData.registerNumber,
-        password: loginData.password
+        password: loginData.password,
       });
 
       const { user } = response.data;
@@ -297,7 +413,9 @@ const Login = () => {
   // Reset OTP (for resend functionality)
   const handleResendOtp = async () => {
     try {
-      const otpResponse = await axios.post(`${API_URL}/send-otp`, { registerNumber: userId });
+      const otpResponse = await axios.post(`${API_URL}/send-otp`, {
+        registerNumber: userId,
+      });
       if (otpResponse.data.otp) {
         setGeneratedOtp(otpResponse.data.otp);
         console.log(`New OTP for ${userId}: ${otpResponse.data.otp}`);
@@ -315,12 +433,17 @@ const Login = () => {
       <div className="w-full max-w-md">
         {/* ID Input Step */}
         {step === "id-input" && (
-          <form onSubmit={handleIdSubmit} className="bg-gray-700/30 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-xl">
+          <form
+            onSubmit={handleIdSubmit}
+            className="bg-gray-700/30 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-xl"
+          >
             <h2 className="text-2xl font-semibold text-white mb-2">Verify</h2>
             <p className="text-gray-400 mb-6">Enter your ID to continue</p>
 
             <div className="mb-4">
-              <label className="block text-gray-300 mb-2">Register Number/ID</label>
+              <label className="block text-gray-300 mb-2">
+                Register Number/ID
+              </label>
               <input
                 type="text"
                 value={idInput}
@@ -342,19 +465,28 @@ const Login = () => {
 
         {/* OTP Verification Step */}
         {step === "otp-verification" && (
-          <form onSubmit={handleOtpVerify} className="bg-gray-700/30 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-xl">
-            <h2 className="text-2xl font-semibold text-white mb-2">Verify OTP</h2>
+          <form
+            onSubmit={handleOtpVerify}
+            className="bg-gray-700/30 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-xl"
+          >
+            <h2 className="text-2xl font-semibold text-white mb-2">
+              Verify OTP
+            </h2>
             <p className="text-gray-400 mb-2">OTP sent to: {userEmail}</p>
 
             {/* Display OTP for testing */}
             <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mb-6">
-              <p className="text-yellow-400 text-sm font-medium mb-2">For Testing: Your OTP is</p>
+              <p className="text-yellow-400 text-sm font-medium mb-2">
+                For Testing: Your OTP is
+              </p>
               <div className="flex items-center justify-center">
                 <span className="text-3xl font-bold text-yellow-400 tracking-widest bg-gray-800/50 px-6 py-2 rounded-lg border border-yellow-500/30">
                   {generatedOtp}
                 </span>
               </div>
-              <p className="text-yellow-400/80 text-xs mt-2 text-center">This OTP is also logged to browser console</p>
+              <p className="text-yellow-400/80 text-xs mt-2 text-center">
+                This OTP is also logged to browser console
+              </p>
             </div>
 
             <div className="mb-4">
@@ -362,7 +494,9 @@ const Login = () => {
               <input
                 type="text"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                onChange={(e) =>
+                  setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
                 placeholder="000000"
                 maxLength={6}
                 className="w-full px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white text-center text-2xl tracking-widest focus:outline-none focus:border-blue-500"
@@ -419,7 +553,10 @@ const Login = () => {
 
         {/* Signup Form Step */}
         {step === "signup" && (
-          <form onSubmit={handleSignup} className="bg-gray-700/30 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-xl">
+          <form
+            onSubmit={handleSignup}
+            className="bg-gray-700/30 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-xl"
+          >
             <h2 className="text-2xl font-semibold text-white mb-2">
               {userType === "student" ? "Student" : "Teacher"} Signup
             </h2>
@@ -429,7 +566,9 @@ const Login = () => {
               <Input
                 label="Full Name"
                 value={signupData.name}
-                onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
+                onChange={(e) =>
+                  setSignupData({ ...signupData, name: e.target.value })
+                }
                 required
               />
 
@@ -437,7 +576,9 @@ const Login = () => {
                 label="Email"
                 type="email"
                 value={signupData.email}
-                onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                onChange={(e) =>
+                  setSignupData({ ...signupData, email: e.target.value })
+                }
                 disabled
                 className="bg-gray-800/30"
               />
@@ -445,7 +586,12 @@ const Login = () => {
               <Input
                 label="Register Number/ID"
                 value={signupData.registerNumber}
-                onChange={(e) => setSignupData({ ...signupData, registerNumber: e.target.value.toUpperCase() })}
+                onChange={(e) =>
+                  setSignupData({
+                    ...signupData,
+                    registerNumber: e.target.value.toUpperCase(),
+                  })
+                }
                 disabled
                 className="bg-gray-800/30"
               />
@@ -454,7 +600,12 @@ const Login = () => {
                 label="Mobile Number"
                 type="tel"
                 value={signupData.mobile}
-                onChange={(e) => setSignupData({ ...signupData, mobile: e.target.value.replace(/\D/g, "").slice(0, 10) })}
+                onChange={(e) =>
+                  setSignupData({
+                    ...signupData,
+                    mobile: e.target.value.replace(/\D/g, "").slice(0, 10),
+                  })
+                }
                 placeholder="10 digits"
                 required
               />
@@ -462,7 +613,9 @@ const Login = () => {
               <Input
                 label="Department"
                 value={signupData.department}
-                onChange={(e) => setSignupData({ ...signupData, department: e.target.value })}
+                onChange={(e) =>
+                  setSignupData({ ...signupData, department: e.target.value })
+                }
                 disabled
                 className="bg-gray-800/30"
               />
@@ -472,26 +625,36 @@ const Login = () => {
                   <Input
                     label="Semester"
                     value={signupData.semester}
-                    onChange={(e) => setSignupData({ ...signupData, semester: e.target.value })}
+                    onChange={(e) =>
+                      setSignupData({ ...signupData, semester: e.target.value })
+                    }
                     required
                   />
                   <Input
                     label="Admission Number"
                     value={signupData.admissionNumber}
-                    onChange={(e) => setSignupData({ ...signupData, admissionNumber: e.target.value.toUpperCase() })}
+                    onChange={(e) =>
+                      setSignupData({
+                        ...signupData,
+                        admissionNumber: e.target.value.toUpperCase(),
+                      })
+                    }
                     required
                   />
-
                 </>
               )}
 
               {userType === "teacher" && (
                 <>
                   <div>
-                    <label className="block text-gray-300 mb-2">Gender <span className="text-red-500">*</span></label>
+                    <label className="block text-gray-300 mb-2">
+                      Gender <span className="text-red-500">*</span>
+                    </label>
                     <select
                       value={signupData.gender}
-                      onChange={(e) => setSignupData({ ...signupData, gender: e.target.value })}
+                      onChange={(e) =>
+                        setSignupData({ ...signupData, gender: e.target.value })
+                      }
                       className="w-full px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                       required
                     >
@@ -504,14 +667,24 @@ const Login = () => {
                   <Input
                     label="Designation"
                     value={signupData.designation}
-                    onChange={(e) => setSignupData({ ...signupData, designation: e.target.value })}
+                    onChange={(e) =>
+                      setSignupData({
+                        ...signupData,
+                        designation: e.target.value,
+                      })
+                    }
                     placeholder="e.g., Assistant Professor, Associate Professor"
                     required
                   />
                   <Input
                     label="Qualification"
                     value={signupData.qualification}
-                    onChange={(e) => setSignupData({ ...signupData, qualification: e.target.value })}
+                    onChange={(e) =>
+                      setSignupData({
+                        ...signupData,
+                        qualification: e.target.value,
+                      })
+                    }
                     placeholder="e.g., M.Sc, Ph.D, M.Com"
                     required
                   />
@@ -522,7 +695,9 @@ const Login = () => {
                 label="Password"
                 type="password"
                 value={signupData.password}
-                onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                onChange={(e) =>
+                  setSignupData({ ...signupData, password: e.target.value })
+                }
                 required
                 minLength={6}
               />
@@ -531,7 +706,12 @@ const Login = () => {
                 label="Confirm Password"
                 type="password"
                 value={signupData.confirmPassword}
-                onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
+                onChange={(e) =>
+                  setSignupData({
+                    ...signupData,
+                    confirmPassword: e.target.value,
+                  })
+                }
                 required
                 minLength={6}
               />
@@ -567,15 +747,25 @@ const Login = () => {
 
         {/* Login Form Step */}
         {step === "login" && (
-          <form onSubmit={handleLogin} className="bg-gray-700/30 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-xl">
+          <form
+            onSubmit={handleLogin}
+            className="bg-gray-700/30 backdrop-blur-lg border border-white/10 rounded-xl p-8 shadow-xl"
+          >
             <h2 className="text-2xl font-semibold text-white mb-2">Login</h2>
-            <p className="text-gray-400 mb-6">Enter your credentials to continue</p>
+            <p className="text-gray-400 mb-6">
+              Enter your credentials to continue
+            </p>
 
             <div className="space-y-4">
               <Input
                 label="Register Number"
                 value={loginData.registerNumber}
-                onChange={(e) => setLoginData({ ...loginData, registerNumber: e.target.value.toUpperCase() })}
+                onChange={(e) =>
+                  setLoginData({
+                    ...loginData,
+                    registerNumber: e.target.value.toUpperCase(),
+                  })
+                }
                 required
               />
 
@@ -585,7 +775,9 @@ const Login = () => {
                 name="password"
                 autoComplete="current-password"
                 value={loginData.password}
-                onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                onChange={(e) =>
+                  setLoginData({ ...loginData, password: e.target.value })
+                }
                 required
               />
             </div>
@@ -636,7 +828,17 @@ const Login = () => {
 };
 
 // Reusable Input Component
-const Input = ({ label, value, onChange, type = "text", placeholder = "", required = false, disabled = false, className = "", ...props }) => (
+const Input = ({
+  label,
+  value,
+  onChange,
+  type = "text",
+  placeholder = "",
+  required = false,
+  disabled = false,
+  className = "",
+  ...props
+}) => (
   <div>
     <label className="block text-gray-300 mb-2">{label}</label>
     <input

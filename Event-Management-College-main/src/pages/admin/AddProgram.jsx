@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, frameData } from "framer-motion";
+import { MdOutlineDateRange } from "react-icons/md";
+
 import {
   FaBolt,
   FaCheckCircle,
@@ -15,6 +17,8 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRef } from "react";
+
 
 const API_BASE_URL = "https://docket-2aus.onrender.com/api"; // Update with your backend URL
 
@@ -55,6 +59,7 @@ const AddProgram = () => {
   const [featureIconLabel, setFeatureIconLabel] = useState("Bolt");
   const [featureName, setFeatureName] = useState("");
   console.log(imagePreview, "image");
+  const dateRef = useRef(null);
 
 
   useEffect(() => {
@@ -232,14 +237,23 @@ const AddProgram = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 block ml-1">Date</label>
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 block ml-1">
+                    Date
+                  </label>
+
                   <div className="relative">
                     <input
+                      ref={dateRef}
                       type="date"
-                      className="w-full p-4 rounded-2xl bg-white/[0.03] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-bold cursor-pointer"
+                      className="custom-date-input w-full p-4 pr-12 rounded-2xl bg-white/[0.03] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all font-bold cursor-pointer"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
                       required
+                    />
+
+                    <MdOutlineDateRange
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-cyan-400 text-xl cursor-pointer hover:scale-110 transition"
+                      onClick={() => dateRef.current?.showPicker()}
                     />
                   </div>
                 </div>

@@ -127,3 +127,30 @@ html,body {
   opacity: 1;
 }
 
+
+.custom-date-input {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.custom-date-input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.custom-time-input {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.custom-time-input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
