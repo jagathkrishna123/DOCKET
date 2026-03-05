@@ -13,7 +13,7 @@ import {
 import { LuScanFace, LuMail } from "react-icons/lu";
 import { toast } from "react-toastify";
 
-const API_URL = "https://docket-2aus.onrender.com/api/teachers";
+const API_URL = "http://localhost:5000/api/teachers";
 
 const isValidEmail = (email) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -198,14 +198,26 @@ const AddTeacher = () => {
           className="mb-10"
         >
           <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-indigo-500/20">
-              <FaChalkboardTeacher />
-            </div>
+            <div className="
+  w-10 h-10 
+  sm:w-12 sm:h-12 
+  md:w-14 md:h-14 
+  lg:w-16 lg:h-16
+  bg-gradient-to-br from-indigo-500 to-purple-600
+  rounded-xl sm:rounded-2xl
+  flex items-center justify-center
+  text-lg sm:text-2xl md:text-3xl
+  text-white
+  shadow-md sm:shadow-lg
+  shadow-indigo-500/20
+">
+  <FaChalkboardTeacher />
+</div>
             <div>
-              <h1 className="text-3xl md:text-5xl font-black bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              <h1 className="text-2xl md:text-5xl font-black bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Faculty Enrollment
               </h1>
-              <p className="text-gray-500 text-lg font-medium">Provision access and manage teacher accounts.</p>
+              <p className="text-gray-500 text-md md:text-lg font-medium">Provision access and manage teacher accounts.</p>
             </div>
           </div>
         </motion.div>

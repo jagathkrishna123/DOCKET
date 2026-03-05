@@ -19,7 +19,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_BASE_URL = "https://docket-2aus.onrender.com/api";
+const API_BASE_URL = "http://localhost:5000/api";
 
 const ICON_OPTIONS = [
   { label: "Bolt", value: FaBolt },

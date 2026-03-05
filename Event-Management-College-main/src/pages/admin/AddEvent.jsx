@@ -22,7 +22,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_BASE_URL = "https://docket-2aus.onrender.com/api"; // Update with your backend URL
+const API_BASE_URL = "http://localhost:5000/api"; // Update with your backend URL
 
 const AddEvent = () => {
   const { id } = useParams();

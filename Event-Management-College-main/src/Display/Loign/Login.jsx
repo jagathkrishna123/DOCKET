@@ -6,7 +6,7 @@ import { useAppContext } from "../../context/AppContext";
 import emailjs from "@emailjs/browser";
 
 // Configure base URL for axios
-const API_URL = "https://docket-2aus.onrender.com";
+const API_URL = "http://localhost:5000";
 
 const Login = () => {
   const navigate = useNavigate();
