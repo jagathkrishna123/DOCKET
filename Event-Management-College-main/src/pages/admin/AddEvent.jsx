@@ -22,7 +22,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_BASE_URL = "http://localhost:5000/api"; // Update with your backend URL
+const API_BASE_URL = "https://docket-2aus.onrender.com/api"; // Update with your backend URL
 
 const AddEvent = () => {
   const { id } = useParams();
@@ -325,72 +325,72 @@ const AddEvent = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-             <div>
-  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 block ml-1">
-    Date
-  </label>
-
-  <div className="relative">
-    <input
-      ref={dateRef}
-      type="date"
-      name="date"
-      value={eventData.date}
-      onChange={handleChange}
-      className="custom-date-input w-full p-4 pr-12 rounded-2xl bg-white/[0.03] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold cursor-pointer"
-      required
-    />
-
-    <MdOutlineDateRange
-      className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-400 text-xl cursor-pointer hover:scale-110 transition"
-      onClick={() => dateRef.current?.showPicker()}
-    />
-  </div>
-</div>
               <div>
-  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 block ml-1">
-    Start Time
-  </label>
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 block ml-1">
+                  Date
+                </label>
 
-  <div className="relative">
-    <input
-      ref={timeRef}
-      type="time"
-      name="startTime"
-      value={eventData.startTime}
-      onChange={handleChange}
-      className="custom-time-input w-full p-4 pr-12 rounded-2xl bg-white/[0.03] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold cursor-pointer"
-      required
-    />
+                <div className="relative">
+                  <input
+                    ref={dateRef}
+                    type="date"
+                    name="date"
+                    value={eventData.date}
+                    onChange={handleChange}
+                    className="custom-date-input w-full p-4 pr-12 rounded-2xl bg-white/[0.03] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold cursor-pointer"
+                    required
+                  />
 
-    <MdAccessTime
-      className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-400 text-xl cursor-pointer hover:scale-110 transition"
-      onClick={() => timeRef.current?.showPicker()}
-    />
-  </div>
-</div>
+                  <MdOutlineDateRange
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-400 text-xl cursor-pointer hover:scale-110 transition"
+                    onClick={() => dateRef.current?.showPicker()}
+                  />
+                </div>
+              </div>
               <div>
-  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 block ml-1">
-    End Time
-  </label>
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 block ml-1">
+                  Start Time
+                </label>
 
-  <div className="relative">
-    <input
-      ref={endTimeRef}
-      type="time"
-      name="endTime"
-      value={eventData.endTime}
-      onChange={handleChange}
-      className="custom-time-input w-full p-4 pr-12 rounded-2xl bg-white/[0.03] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold cursor-pointer"
-      required
-    />
+                <div className="relative">
+                  <input
+                    ref={timeRef}
+                    type="time"
+                    name="startTime"
+                    value={eventData.startTime}
+                    onChange={handleChange}
+                    className="custom-time-input w-full p-4 pr-12 rounded-2xl bg-white/[0.03] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold cursor-pointer"
+                    required
+                  />
 
-    <MdAccessTime
-      className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-400 text-xl cursor-pointer hover:scale-110 transition"
-      onClick={() => endTimeRef.current?.showPicker()}
-    />
-  </div>
-</div>
+                  <MdAccessTime
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-400 text-xl cursor-pointer hover:scale-110 transition"
+                    onClick={() => timeRef.current?.showPicker()}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 block ml-1">
+                  End Time
+                </label>
+
+                <div className="relative">
+                  <input
+                    ref={endTimeRef}
+                    type="time"
+                    name="endTime"
+                    value={eventData.endTime}
+                    onChange={handleChange}
+                    className="custom-time-input w-full p-4 pr-12 rounded-2xl bg-white/[0.03] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-bold cursor-pointer"
+                    required
+                  />
+
+                  <MdAccessTime
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-400 text-xl cursor-pointer hover:scale-110 transition"
+                    onClick={() => endTimeRef.current?.showPicker()}
+                  />
+                </div>
+              </div>
               <div>
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3 block ml-1">Venue Name</label>
                 <input

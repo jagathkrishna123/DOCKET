@@ -13,7 +13,7 @@ import {
 import { LuScanFace, LuMail } from "react-icons/lu";
 import { toast } from "react-toastify";
 
-const API_URL = "http://localhost:5000/api/teachers";
+const API_URL = "https://docket-2aus.onrender.com/api/teachers";
 
 const isValidEmail = (email) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -211,8 +211,8 @@ const AddTeacher = () => {
   shadow-md sm:shadow-lg
   shadow-indigo-500/20
 ">
-  <FaChalkboardTeacher />
-</div>
+              <FaChalkboardTeacher />
+            </div>
             <div>
               <h1 className="text-2xl md:text-5xl font-black bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Faculty Enrollment

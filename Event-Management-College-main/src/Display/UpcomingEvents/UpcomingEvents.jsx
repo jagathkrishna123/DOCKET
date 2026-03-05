@@ -9,7 +9,7 @@
 // // // } from "react-icons/fa";
 // // // import axios from "axios";
 
-// // // const API_BASE_URL = "http://localhost:5000/api";
+// // // const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 // // // // Map to restore icons
 // // // const ICON_MAP = {
@@ -203,7 +203,7 @@
 // // } from "react-icons/fa";
 // // import axios from "axios";
 
-// // const API_BASE_URL = "http://localhost:5000/api";
+// // const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 // // // Map to restore icons
 // // const ICON_MAP = {
@@ -489,7 +489,7 @@
 // } from "react-icons/fa";
 // import axios from "axios";
 
-// const API_BASE_URL = "http://localhost:5000/api";
+// const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 // // Map to restore icons
 // const ICON_MAP = {
@@ -762,7 +762,7 @@
 //                     0% { transform: translateX(0); }
 //                     100% { transform: translateX(calc(-1 * var(--count) * (var(--card-width) + var(--gap)))); }
 //                 }
-                
+
 //                 /* Line clamp utilities */
 //                 .line-clamp-2 {
 //                     display: -webkit-box;
@@ -793,7 +793,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const ICON_MAP = {
   Bolt: FaBolt,
@@ -864,9 +864,9 @@ export function UpcomingEvents() {
           </div>
 
           {events.length > 0 && (
-           <div className="rounded-full bg-white/10 backdrop-blur-md px-4 md:py-2 py-1 text-sm text-gray-300 border border-white/20 w-fit text-[12px] md:text-sm">
-  {events.length} {events.length === 1 ? "Program" : "Programs"}
-</div>
+            <div className="rounded-full bg-white/10 backdrop-blur-md px-4 md:py-2 py-1 text-sm text-gray-300 border border-white/20 w-fit text-[12px] md:text-sm">
+              {events.length} {events.length === 1 ? "Program" : "Programs"}
+            </div>
           )}
         </div>
 

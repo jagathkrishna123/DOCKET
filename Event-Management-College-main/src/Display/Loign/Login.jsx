@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -6,7 +6,7 @@ import { useAppContext } from "../../context/AppContext";
 import emailjs from "@emailjs/browser";
 
 // Configure base URL for axios
-const API_URL = "http://localhost:5000";
+const API_URL = "https://docket-2aus.onrender.com";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,10 +16,10 @@ const Login = () => {
   const [step, setStep] = useState("id-input");
   const [userType, setUserType] = useState(null); // 'student' | 'teacher'
   const [userEmail, setUserEmail] = useState("");
-  const [mail,setMail] = useState("")
+  const [mail, setMail] = useState("")
   const [userId, setUserId] = useState("");
-  console.log(userId,"ma");
-  
+  console.log(userId, "ma");
+
 
   // ID Input state
   const [idInput, setIdInput] = useState("");
@@ -31,55 +31,55 @@ const Login = () => {
 
   //Fetvh user
 
-// useEffect(() => {
-//   const fetchUser = async () => {
-//     try {
-//       let endpoint = "";
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       let endpoint = "";
 
-//       // Decide API based on userId prefix
-//       if (userId?.startsWith("SFA")) {
-//         endpoint = "/api/students";
-//       } else if (userId?.startsWith("AED")) {
-//         endpoint = "/api/teachers";
-//       } else {
-//         console.log("Invalid User ID format");
-//         return;
-//       }
+  //       // Decide API based on userId prefix
+  //       if (userId?.startsWith("SFA")) {
+  //         endpoint = "/api/students";
+  //       } else if (userId?.startsWith("AED")) {
+  //         endpoint = "/api/teachers";
+  //       } else {
+  //         console.log("Invalid User ID format");
+  //         return;
+  //       }
 
-//       const res = await axios.get(`${API_URL}${endpoint}`);
-//       console.log(res,"response");
-      
-//       const users = res.data;
+  //       const res = await axios.get(`${API_URL}${endpoint}`);
+  //       console.log(res,"response");
 
-//       console.log("API Called:", endpoint);
-//       console.log("Users:", users);
+  //       const users = res.data;
 
-//       if (Array.isArray(users)) {
-//         const matchedUser = users.find(
-//           (user) =>
-//             user.teacherId?.trim().toLowerCase() ===
-//             userId?.trim().toLowerCase()
-//         );
+  //       console.log("API Called:", endpoint);
+  //       console.log("Users:", users);
 
-//         console.log("Matched User:", matchedUser);
+  //       if (Array.isArray(users)) {
+  //         const matchedUser = users.find(
+  //           (user) =>
+  //             user.teacherId?.trim().toLowerCase() ===
+  //             userId?.trim().toLowerCase()
+  //         );
 
-//         if (matchedUser) {
-//           setMail(matchedUser.email);
-//         } else {
-//           console.log("No matching user found");
-//         }
-//       }
+  //         console.log("Matched User:", matchedUser);
 
-//     } catch (error) {
-//       console.error("Error fetching user:", error);
-//     }
-//   };
+  //         if (matchedUser) {
+  //           setMail(matchedUser.email);
+  //         } else {
+  //           console.log("No matching user found");
+  //         }
+  //       }
 
-//   if (userId) {
-//     fetchUser();
-//   }
+  //     } catch (error) {
+  //       console.error("Error fetching user:", error);
+  //     }
+  //   };
 
-// }, [userId]);
+  //   if (userId) {
+  //     fetchUser();
+  //   }
+
+  // }, [userId]);
   // Signup form state
   const [signupData, setSignupData] = useState({
     name: "",
@@ -101,8 +101,8 @@ const Login = () => {
     registerNumber: "",
     password: "",
   });
- 
-  
+
+
 
   // // Generate OTP (6-digit random number)
   // const generateOTP = () => {
@@ -111,50 +111,50 @@ const Login = () => {
   // }
 
 
-  
 
-  
 
-// const [sending, setSending] = useState(false);
 
-// const sendOtp = async () => {
-//   console.log("Sending OTP to:", mail);
 
-//   // ✅ Validate email
-//   if (!mail || !mail.includes("@")) {
-//     alert("Valid email is required");
-//     return;
-//   }
+  // const [sending, setSending] = useState(false);
 
-//   // ✅ Validate OTP
-//   if (!generatedOtp) {
-//     alert("OTP not generated");
-//     return;
-//   }
+  // const sendOtp = async () => {
+  //   console.log("Sending OTP to:", mail);
 
-//   try {
-//     setSending(true);
+  //   // ✅ Validate email
+  //   if (!mail || !mail.includes("@")) {
+  //     alert("Valid email is required");
+  //     return;
+  //   }
 
-//     const response = await emailjs.send(
-//       "service_rzknbo8",
-//       "template_2iuizlj",
-//       {
-//         to_email: mail,
-//         otp: generatedOtp,
-//       },
-//       "AVhbHu_-no5zEa5zc"
-//     );
+  //   // ✅ Validate OTP
+  //   if (!generatedOtp) {
+  //     alert("OTP not generated");
+  //     return;
+  //   }
 
-//     console.log("SUCCESS!", response);
-//     alert("OTP sent successfully ✅");
+  //   try {
+  //     setSending(true);
 
-//   } catch (error) {
-//     console.error("FAILED...", error?.text || error);
-//     alert("Failed to send OTP ❌");
-//   } finally {
-//     setSending(false);
-//   }
-// };
+  //     const response = await emailjs.send(
+  //       "service_rzknbo8",
+  //       "template_2iuizlj",
+  //       {
+  //         to_email: mail,
+  //         otp: generatedOtp,
+  //       },
+  //       "AVhbHu_-no5zEa5zc"
+  //     );
+
+  //     console.log("SUCCESS!", response);
+  //     alert("OTP sent successfully ✅");
+
+  //   } catch (error) {
+  //     console.error("FAILED...", error?.text || error);
+  //     alert("Failed to send OTP ❌");
+  //   } finally {
+  //     setSending(false);
+  //   }
+  // };
   // Department code mapping
   const departmentMap = {
     BCM: "B.Com (Bachelor of Commerce)",

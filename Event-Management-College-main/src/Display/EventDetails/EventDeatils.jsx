@@ -22,7 +22,7 @@ import { BiWorld } from "react-icons/bi";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -155,50 +155,50 @@ const EventDetails = () => {
           <div className="lg:col-span-8 space-y-12">
             {/* Project Hero Card */}
             <motion.div
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  className="relative rounded-xl overflow-hidden group shadow-2xl border border-white/10"
->
-  {/* IMAGE SECTION */}
-  <div className="aspect-[21/9] relative overflow-hidden">
-  <img
-    src={
-      event.poster
-        ? `${API_BASE_URL}/uploads/${event.poster}`
-        : "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200"
-    }
-    alt={event.eventName}
-    className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700"
-  />
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="relative rounded-xl overflow-hidden group shadow-2xl border border-white/10"
+            >
+              {/* IMAGE SECTION */}
+              <div className="aspect-[21/9] relative overflow-hidden">
+                <img
+                  src={
+                    event.poster
+                      ? `${API_BASE_URL}/uploads/${event.poster}`
+                      : "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200"
+                  }
+                  alt={event.eventName}
+                  className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700"
+                />
 
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-gradient-to-t from-[#03050F] via-[#03050F]/40 to-transparent group-hover:from-[#03050F]/90 transition-all duration-700"></div>
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#03050F] via-[#03050F]/40 to-transparent group-hover:from-[#03050F]/90 transition-all duration-700"></div>
 
-  {/* Title + Badges */}
-  <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-    <div className="flex flex-wrap items-center gap-3 mb-6">
-      <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-[10px] font-black uppercase tracking-widest border border-cyan-500/20">
-        {event.department}
-      </span>
+                {/* Title + Badges */}
+                <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
+                  <div className="flex flex-wrap items-center gap-3 mb-6">
+                    <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-[10px] font-black uppercase tracking-widest border border-cyan-500/20">
+                      {event.department}
+                    </span>
 
-      <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-[10px] font-black uppercase tracking-widest border border-purple-500/20">
-        {event.participationType}
-      </span>
-    </div>
+                    <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-[10px] font-black uppercase tracking-widest border border-purple-500/20">
+                      {event.participationType}
+                    </span>
+                  </div>
 
-    <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter">
-      {event.eventName}
-    </h1>
-  </div>
-</div>
+                  <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter">
+                    {event.eventName}
+                  </h1>
+                </div>
+              </div>
 
-  {/* DESCRIPTION OUTSIDE */}
-  <div className="p-8 md:p-12 bg-[#03050F]">
-    <p className="text-lg text-gray-400 max-w-3xl font-medium leading-relaxed">
-      {event.description}
-    </p>
-  </div>
-</motion.div>
+              {/* DESCRIPTION OUTSIDE */}
+              <div className="p-8 md:p-12 bg-[#03050F]">
+                <p className="text-lg text-gray-400 max-w-3xl font-medium leading-relaxed">
+                  {event.description}
+                </p>
+              </div>
+            </motion.div>
 
             {/* Event Matrix */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

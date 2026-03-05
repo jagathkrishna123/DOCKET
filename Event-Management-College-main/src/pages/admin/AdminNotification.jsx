@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { HiOutlineBell } from "react-icons/hi";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const AdminNotification = () => {
     const [activeTab, setActiveTab] = useState("compose"); // compose, history

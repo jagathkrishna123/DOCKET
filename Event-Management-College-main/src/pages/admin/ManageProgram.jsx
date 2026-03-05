@@ -5,7 +5,7 @@
 // import axios from "axios";
 // import { toast } from "react-toastify";
 
-// const API_BASE_URL = "http://localhost:5000/api"; // Update with your backend URL
+// const API_BASE_URL = "https://docket-2aus.onrender.com/api"; // Update with your backend URL
 
 // const ManageProgram = () => {
 //   const navigate = useNavigate();
@@ -289,7 +289,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://docket-2aus.onrender.com/api";
 
 const ManageProgram = () => {
   const navigate = useNavigate();
@@ -389,9 +389,8 @@ const ManageProgram = () => {
                 setActiveTab("programs");
                 setCurrentPage(1);
               }}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-md ${
-                activeTab === "programs" ? "bg-cyan-600 text-white" : "hover:bg-slate-700"
-              }`}
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-md ${activeTab === "programs" ? "bg-cyan-600 text-white" : "hover:bg-slate-700"
+                }`}
             >
               Programs
             </button>
@@ -400,9 +399,8 @@ const ManageProgram = () => {
                 setActiveTab("events");
                 setCurrentPage(1);
               }}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-md ${
-                activeTab === "events" ? "bg-cyan-600 text-white" : "hover:bg-slate-700"
-              }`}
+              className={`flex-1 sm:flex-none px-4 py-2 rounded-md ${activeTab === "events" ? "bg-cyan-600 text-white" : "hover:bg-slate-700"
+                }`}
             >
               Events
             </button>
@@ -442,11 +440,10 @@ const ManageProgram = () => {
                         <div>
                           <div className="text-slate-500">Status</div>
                           <span
-                            className={`inline-block px-2.5 py-1 rounded text-xs mt-1 ${
-                              item.status === "approved"
+                            className={`inline-block px-2.5 py-1 rounded text-xs mt-1 ${item.status === "approved"
                                 ? "bg-green-500/20 text-green-400"
                                 : "bg-yellow-500/20 text-yellow-400"
-                            }`}
+                              }`}
                           >
                             {item.status || "Pending"}
                           </span>
@@ -467,11 +464,10 @@ const ManageProgram = () => {
                     {isEvent && (
                       <button
                         onClick={() => handleToggleStatus(item._id, item.status)}
-                        className={`p-2.5 rounded-lg hover:text-white ${
-                          item.status === "approved"
+                        className={`p-2.5 rounded-lg hover:text-white ${item.status === "approved"
                             ? "bg-red-500/20 text-red-400 hover:bg-red-500"
                             : "bg-green-500/20 text-green-400 hover:bg-green-500"
-                        }`}
+                          }`}
                         title={item.status === "approved" ? "Reject" : "Approve"}
                       >
                         {item.status === "approved" ? <FaTimes /> : <FaCheck />}
@@ -532,11 +528,10 @@ const ManageProgram = () => {
                     {activeTab === "events" && (
                       <td className="p-3 text-center">
                         <span
-                          className={`px-2 py-1 rounded text-xs ${
-                            item.status === "approved"
+                          className={`px-2 py-1 rounded text-xs ${item.status === "approved"
                               ? "bg-green-500/20 text-green-400"
                               : "bg-yellow-500/20 text-yellow-400"
-                          }`}
+                            }`}
                         >
                           {item.status || "Pending"}
                         </span>
@@ -555,11 +550,10 @@ const ManageProgram = () => {
                       {activeTab === "events" && (
                         <button
                           onClick={() => handleToggleStatus(item._id, item.status)}
-                          className={`p-2 rounded hover:text-white transition-colors ${
-                            item.status === "approved"
+                          className={`p-2 rounded hover:text-white transition-colors ${item.status === "approved"
                               ? "bg-red-500/20 text-red-400 hover:bg-red-500"
                               : "bg-green-500/20 text-green-400 hover:bg-green-500"
-                          }`}
+                            }`}
                           title={item.status === "approved" ? "Reject" : "Approve"}
                         >
                           {item.status === "approved" ? <FaTimes /> : <FaCheck />}

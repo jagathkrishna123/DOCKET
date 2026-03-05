@@ -12,7 +12,7 @@ import {
 import { LuUser, LuMail } from "react-icons/lu";
 import { toast } from "react-toastify";
 
-const API_URL = "http://localhost:5000/api/students";
+const API_URL = "https://docket-2aus.onrender.com/api/students";
 
 const isValidEmail = (email) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
